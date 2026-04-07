@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網紅口碑 | 達摩媒體 Dotmore Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Noto+Sans+TC:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <!-- Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    <style>
+        :root {
+            --deep-black: #0a0a0a;
+            --pure-white: #ffffff;
+            --impact-red: #f33036;
+            --editorial-gray: #444444;
+            --grid-line-white: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Locomotive Scroll Customization */
+        html.has-scroll-smooth {
+            overflow: hidden;
+        }
+        .has-scroll-smooth body {
+            overflow: hidden;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--deep-black); color: white; font-family: 'Noto Sans TC', sans-serif; margin: 0; overflow-x: hidden; }
+        .page-container { padding-left: 30px; padding-right: 30px; }
+        @media (min-width: 1024px) { .page-container { padding-left: 80px; padding-right: 80px; } }
+
+        .hero-title { font-size: clamp(32px, 6vw, 80px); line-height: 1.15; font-weight: 500; letter-spacing: -0.02em; }
+        .section-title { font-size: clamp(28px, 4.5vw, 56px); line-height: 1.2; font-weight: 500; letter-spacing: -0.01em; }
+
+        /* Full Bleed Lines for Hero */
+        .full-bleed-h { position: absolute; left: 0; right: 0; height: 1px; background-color: var(--grid-line-white); z-index: 5; }
+        .full-bleed-v { position: absolute; top: 0; bottom: 0; width: 1px; background-color: var(--grid-line-white); z-index: 5; }
+
+        /* Insight Card Style */
+        .insight-card {
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 24px;
+            background: transparent;
+            backdrop-filter: blur(5px);
+            max-width: 320px;
+            margin-left: auto;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Button Animation - Extend & Bounce */
+        .capsule-btn {
+            background-color: var(--impact-red);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+            text-transform: uppercase;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+        .btn-arrow {
+            display: inline-block;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateX(-12px);
+            line-height: 1;
+        }
+        .capsule-btn:hover .btn-arrow {
+            max-width: 40px;
+            opacity: 1;
+            transform: translateX(10px);
+            margin-left: 10px;
+            margin-right: 8px;
+        }
+
+        /* Grid Central Align & Animation */
+        .editorial-flex-container { display: flex; flex-direction: column; width: 100%; }
+        @media (min-width: 768px) { .editorial-flex-container { flex-direction: row; } }
+        .editorial-box {
+            flex: 1;
+            transition: flex 800ms ease-in-out, background-color 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        @media (min-width: 768px) { .editorial-box:hover { flex: 1.025; background-color: rgba(255, 255, 255, 0.02); } }
+
+        /* Step Alignment - Full Bleed Lines */
+        .process-row { width: 100%; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+        .process-row:last-child { border-bottom: none; }
+        .process-row-inner { padding: 56px 0; display: flex; align-items: center; }
+        .process-num-text { font-size: clamp(60px, 10vw, 120px); font-weight: 500; color: var(--impact-red); line-height: 1; margin-right: 30px; flex-shrink: 0; }
+        .process-subtitle { font-size: clamp(18px, 2.2vw, 24px); font-weight: 700; color: #000000; margin-bottom: 8px; line-height: 1.3; }
+        .process-body-text { font-size: 15px; color: #000000; line-height: 1.7; max-width: 550px; text-align: left; }
+
+        /* Reveal Animations */
+        .fade-push-up {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-push-up.is-inview {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-scrolled { background-color: transparent !important; border-bottom: none; }
+        /* Logo text slide-up animation */
+        @keyframes logoTextSlideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .logo-text-g {
+            animation: logoTextSlideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        .menu-link { position: relative; display: inline-block; }
+        .menu-link::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #f33036;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .menu-link:hover {
+            color: rgba(255,255,255,1) !important;
+            transform: scale(1.15);
+            letter-spacing: 0.12em !important;
+        }
+        .menu-link:hover::before {
+            transform: translateY(-50%) scale(1);
+        }
+        .footer-link { color: #888888; transition: color 0.3s ease; text-decoration: none; }
+        .footer-link:hover { color: #ffffff; }
+
+        [data-scroll-container] { perspective: 1px; }
+
+        /* Slide-up reveal */
+        .gs-reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .gs-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Per-character slide up */
+        .tagline-chars .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .is-inview .char {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:200;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
+        <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
+        <button id="menu-toggle" style="width:52px;height:52px;background:#f33036;border:none;border-radius:50%;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;transition:transform 0.3s ease;">
+            <span style="display:block;width:22px;height:2px;background:white;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);transform-origin:center;"></span>
+            <span style="display:block;width:22px;height:2px;background:white;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);transform-origin:center;"></span>
+            <span style="display:block;width:22px;height:2px;background:white;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);transform-origin:center;"></span>
+        </button>
+    </nav>
+
+    <!-- FULL-SCREEN MENU OVERLAY -->
+    <div id="menu-overlay" style="position:fixed;inset:0;z-index:150;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.97);backdrop-filter:blur(30px);opacity:0;pointer-events:none;transition:opacity 0.5s ease;">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:28px;">
+            <a href="landing.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">首頁</a>
+            <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">KOL 網紅口碑</a>
+            <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">KOC 群眾口碑</a>
+            <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">論壇操作</a>
+            <a href="social-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">社群動能</a>
+            <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">精彩案例</a>
+            <a href="article-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">文章</a>
+            <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">聯絡我們</a>
+        </div>
+    </div>
+
+    <div data-scroll-container id="sticky-container">
+
+        <!-- HERO SECTION -->
+        <main data-scroll-section class="min-h-screen flex flex-col justify-center pt-32 pb-20 page-container relative z-10 text-white">
+            <div class="full-bleed-v hidden lg:block" style="left: 60%;"></div>
+            <div class="full-bleed-v hidden lg:block" style="right: 80px;"></div>
+            <div class="full-bleed-h top-[20%]"></div>
+            <div class="full-bleed-h" style="top: calc(100% - 80px);"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-0 items-stretch relative">
+                <div class="lg:col-span-3 flex flex-col justify-center relative pb-20 pr-10">
+                    <div class="relative mt-20" data-scroll data-scroll-speed="1">
+                        <div style="position:relative;display:inline-block;margin-bottom:8px;padding-left:4px;">
+                            <span style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;font-weight:400;color:rgba(255,255,255,0.6);letter-spacing:0.02em;">Key Opinion Leader</span>
+                            <svg width="20" height="24" viewBox="0 0 20 24" fill="none" style="position:absolute;left:0;bottom:-22px;transform:rotate(5deg);">
+                                <path d="M10 0 C9 8, 8 16, 10 22" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                                <path d="M6 18 L10 22 L14 18" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h1 class="hero-title mb-8 gs-reveal">KOL 網紅口碑<br>為你傳遞獨特價值</h1>
+                        <div class="max-w-xl mb-10 leading-relaxed gs-reveal">
+                            <p class="mb-4 text-white font-normal text-[15px]">
+                                每個品牌需要的不是「曝光最多的人」，而是「最能代表你、也最能被受眾相信的人」。
+                            </p>
+                        </div>
+                        <div class="gs-reveal">
+                            <a href="#process" class="capsule-btn" data-scroll-to>
+                                <span>專人諮詢</span><span class="btn-arrow">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 flex flex-col justify-end items-end mt-20 lg:mt-0 relative" data-scroll data-scroll-speed="2">
+                    <div class="insight-card w-full mb-12 relative z-20 gs-reveal" id="dodge-card">
+                        <h2 class="text-lg font-bold leading-relaxed mb-0 text-white/90 text-center">
+                            "超過 86% 的消費者表示，KOL 的推薦直接影響了他們的購買決策。"
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- SECTION 2: PROCESS -->
+        <section data-scroll-section id="process" class="bg-white text-[#0a0a0a] pt-32 pb-20">
+            <div class="relative mb-10">
+                <div class="page-container flex flex-col items-center text-center py-10">
+                    <h2 class="section-title mb-4 gs-reveal">我們的合作流程</h2>
+                    <p class="text-base font-medium opacity-70 gs-reveal">讓影響力不是火花，而是可累積的信任資產</p>
+                </div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-black/10"></div>
+            </div>
+
+            <div class="flex flex-col">
+                <div class="process-row gs-reveal"><div class="page-container process-row-inner lg:pl-[5%]"><div class="process-num-text">1.</div><div><h3 class="process-subtitle">品牌對焦</h3><p class="process-body-text">先聽懂你的品牌與產品「要被記住的那一句」。釐清核心賣點、受眾痛點與溝通禁區，建立一致的內容方向。</p></div></div></div>
+                <div class="process-row gs-reveal"><div class="page-container process-row-inner lg:pl-[22%]"><div class="process-num-text">2.</div><div><h3 class="process-subtitle">人選媒合</h3><p class="process-body-text">不只看粉絲數與觸及，更看受眾組成、互動品質、內容信任度。找到價值觀契合的 KOL。</p></div></div></div>
+                <div class="process-row gs-reveal"><div class="page-container process-row-inner lg:pl-[35%]"><div class="process-num-text">3.</div><div><h3 class="process-subtitle">內容共創</h3><p class="process-body-text">依平台特性設計內容結構（影音/圖文/短影音/直播），將品牌訊息自然融入 KOL 的語境與日常情境裡：好看、好懂、好轉述。</p></div></div></div>
+                <div class="process-row gs-reveal"><div class="page-container process-row-inner lg:pl-[22%]"><div class="process-num-text">4.</div><div><h3 class="process-subtitle">一致性把關</h3><p class="process-body-text">在創作者自由與品牌要求之間做平衡，全面審核資訊正確性，累積同一個品牌印象。</p></div></div></div>
+                <div class="process-row gs-reveal"><div class="page-container process-row-inner lg:pl-[5%]"><div class="process-num-text">5.</div><div><h3 class="process-subtitle">成效優化</h3><p class="process-body-text">投放加速、二次剪輯、素材再利用、口碑長尾與搜尋能見度優化。</p></div></div></div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KOL 系列 I -->
+        <section data-scroll-section class="bg-[#0a0a0a] text-white border-t border-white/10 overflow-hidden pt-24">
+            <div class="page-container py-10 text-center">
+                <h2 class="section-title uppercase mb-6 gs-reveal">KOL 系列 I<br><span class="text-[#f33036]">YouTube 影音口碑</span></h2>
+                <p class="text-xl font-medium mb-4 gs-reveal">用「看得見的體驗」，把說服力做滿。</p>
+            </div>
+            <div class="editorial-flex-container border-y border-white/10">
+                <div class="editorial-box page-container py-16 border-b md:border-b-0 md:border-r border-white/10 group">
+                    <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">01</div>
+                    <h4 class="text-xl font-bold mb-4">見證體驗<br>說服更直接</h4>
+                    <p class="text-[#888888] text-sm max-w-[280px]">鏡頭前的示範與細節呈現，能大幅降低消費者的不確定感。</p>
+                </div>
+                <div class="editorial-box page-container py-16 border-b md:border-b-0 md:border-r border-white/10 group">
+                    <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">02</div>
+                    <h4 class="text-xl font-bold mb-4">長尾搜尋<br>持續被看見</h4>
+                    <p class="text-[#888888] text-sm max-w-[280px]">影片具備可被搜尋與分享的特性，能為品牌留下更長期的內容資產。</p>
+                </div>
+                <div class="editorial-box page-container py-16 group">
+                    <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">03</div>
+                    <h4 class="text-xl font-bold mb-4">跨域擴散<br>放大能見度</h4>
+                    <p class="text-[#888888] text-sm max-w-[280px]">透過標題與關鍵字策略，讓內容更容易被不同地區找到。</p>
+                </div>
+            </div>
+            <div class="editorial-flex-container border-b border-white/10">
+                <div class="editorial-box p-8 md:border-r border-white/10"><div class="border border-white/40 rounded-[32px] p-10 w-full max-w-lg">
+                    <h4 class="text-xl font-bold mb-8 text-center">適用情境</h4><ul class="text-[#888888] text-sm space-y-5 text-left inline-block">
+                    <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>新品上市：需要「看得懂」的示範</span></li>
+                    <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>強示範產品：前後效果呈現</span></li>
+                </ul></div></div>
+                <div class="editorial-box p-8"><div class="border border-white/40 rounded-[32px] p-10 w-full max-w-lg">
+                    <h4 class="text-xl font-bold mb-8 text-center">優勢</h4><ul class="text-[#888888] text-sm space-y-5 text-left inline-block">
+                    <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>長期資產：內容具備長尾搜尋價值</span></li>
+                    <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>素材再利用：可二次剪輯廣告投放</span></li>
+                </ul></div></div>
+            </div>
+            <div class="py-16 text-center gs-reveal"><a href="#" class="capsule-btn"><span>立刻把說服力做滿</span><span class="btn-arrow">→</span></a></div>
+        </section>
+
+        <!-- SECTION 4: KOL 系列 II -->
+        <section data-scroll-section class="bg-[#0a0a0a] text-white border-t border-white/10 overflow-hidden pt-24">
+            <div class="page-container py-10 text-center">
+                <h2 class="section-title uppercase mb-6 gs-reveal">KOL 系列 II<br><span class="text-[#f33036]">FB/IG 人氣網紅</span></h2>
+                <p class="text-xl font-medium mb-4 gs-reveal">圖文、短影音、直播，把互動熱度轉成社群聲量。</p>
+            </div>
+            <div class="editorial-flex-container border-y border-white/10">
+                <div class="editorial-box page-container py-16 border-b md:border-b-0 md:border-r border-white/10 group">
+                    <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">01</div>
+                    <h4 class="text-xl font-bold mb-4">社群聲量<br>快速擴散</h4>
+                    <p class="text-[#888888] text-sm max-w-[280px]">用平台機制放大留言與分享，讓口碑訊息在短時間內被看見。</p>
+                </div>
+                <div class="editorial-box page-container py-16 border-b md:border-b-0 md:border-r border-white/10 group">
+                    <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">02</div>
+                    <h4 class="text-xl font-bold mb-4">多元人設<br>覆蓋受眾</h4>
+                    <p class="text-[#888888] text-sm max-w-[280px]">涵蓋專業職人與各領域，以貼近受眾的方式呈現。</p>
+                </div>
+                <div class="editorial-box page-container py-16 group">
+                    <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">03</div>
+                    <h4 class="text-xl font-bold mb-4">內容再利用<br>放大效率</h4>
+                    <p class="text-[#888888] text-sm max-w-[280px]">合作內容可延伸為品牌自有素材，創造多次曝光產出。</p>
+                </div>
+            </div>
+            <div class="editorial-flex-container border-b border-white/10">
+                <div class="editorial-box p-8 md:border-r border-white/10"><div class="border border-white/40 rounded-[32px] p-10 w-full max-lg"><h4 class="text-xl font-bold mb-8 text-center">適用情境</h4><ul class="text-[#888888] text-sm space-y-5 text-left inline-block">
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>需要爆量：活動檔期、聯名、新品開賣</span></li>
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>社群互動：留言、分享、私訊詢問度</span></li>
+            </ul></div></div>
+            <div class="editorial-box p-8"><div class="border border-white/40 rounded-[32px] p-10 w-full max-lg"><h4 class="text-xl font-bold mb-8 text-center">優勢</h4><ul class="text-[#888888] text-sm space-y-5 text-left inline-block">
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>短期高互動：獲得大量粉絲好友圈擴散</span></li>
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>素材延伸：縮短廣告測試成本</span></li>
+            </ul></div></div>
+        </div>
+        <div class="py-16 text-center gs-reveal"><a href="#" class="capsule-btn"><span>立刻把社群聲量拉滿</span><span class="btn-arrow">→</span></a></div>
+    </section>
+
+    <!-- SECTION 5: KOL 系列 III -->
+    <section data-scroll-section class="bg-[#0a0a0a] text-white border-t border-white/10 overflow-hidden pt-24">
+        <div class="page-container py-10 text-center">
+            <h2 class="section-title uppercase mb-6 gs-reveal">KOL 系列 III<br><span class="text-[#f33036]">達人部落客</span></h2>
+            <p class="text-xl font-medium mb-4 gs-reveal">把口碑變成「搜尋看得到、比較找得到」的決策證據。</p>
+        </div>
+        <div class="editorial-flex-container border-y border-white/10">
+            <div class="editorial-box page-container py-16 border-b md:border-b-0 md:border-r border-white/10 group">
+                <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">01</div>
+                <h4 class="text-xl font-bold mb-4">專業推薦<br>建立信任門檻</h4>
+                <p class="text-[#888888] text-sm max-w-[280px]">長文能完整解釋情境與規格，特別適合理性決策品類。</p>
+            </div>
+            <div class="editorial-box page-container py-16 border-b md:border-b-0 md:border-r border-white/10 group">
+                <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">02</div>
+                <h4 class="text-xl font-bold mb-4">資訊完整度<br>強化說服邏輯</h4>
+                <p class="text-[#888888] text-sm max-w-[280px]">透過深度拆解 FAQ，建立品牌專業，降低消費者不確定感。</p>
+            </div>
+            <div class="editorial-box page-container py-16 group">
+                <div class="absolute -right-4 -top-8 text-[120px] font-medium text-white/[0.03] mono group-hover:text-white/[0.06] transition-all">03</div>
+                <h4 class="text-xl font-bold mb-4">決策參考<br>最後一里路</h4>
+                <p class="text-[#888888] text-sm max-w-[280px]">自媒體長文通常是購買前的最終依據，有效轉化猶豫。</p>
+            </div>
+        </div>
+        <div class="editorial-flex-container border-b border-white/10">
+            <div class="editorial-box p-8 md:border-r border-white/10"><div class="border border-white/40 rounded-[32px] p-10 w-full max-w-lg">
+                <h4 class="text-xl font-bold mb-8 text-center">適用情境</h4><ul class="text-[#888888] text-sm space-y-5 text-left inline-block">
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>口碑長尾 SEO：想要搜尋查得到、比較找得到</span></li>
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>理性決策：3C、家電、保健、醫美服務型商品</span></li>
+            </ul></div></div>
+            <div class="editorial-box p-8"><div class="border border-white/40 rounded-[32px] p-10 w-full max-w-lg">
+                <h4 class="text-xl font-bold mb-8 text-center">優勢</h4><ul class="text-[#888888] text-sm space-y-5 text-left inline-block">
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>可被搜尋引用：成為強大的「決策證據」</span></li>
+                <li class="flex gap-3"><svg class="w-4 h-4 mt-1 shrink-0" viewBox="0 0 24 24" fill="none"><rect x="0.5" y="0.5" width="23" height="23" rx="6" stroke="#f33036" stroke-width="2"/><path d="M7 12L10.5 15.5L17 9" stroke="#f33036" stroke-width="2"/></svg><span>流量穩定：內容長期保留帶來自然流量</span></li>
+            </ul></div></div>
+        </div>
+        <div class="py-16 text-center gs-reveal"><a href="#" class="capsule-btn"><span>立刻把口碑變成決策證據</span><span class="btn-arrow">→</span></a></div>
+    </section>
+
+    <!-- BLACK TAGLINE SECTION -->
+    <section data-scroll-section class="bg-[#0a0a0a] py-64 md:py-80 page-container flex flex-col items-center justify-center text-center overflow-hidden border-t border-white/5">
+        <div class="max-w-6xl fade-push-up tagline-trigger" data-scroll data-scroll-class="is-inview" data-scroll-offset="20%">
+            <h2 class="text-white text-[clamp(28px,4.5vw,52px)] font-bold leading-[1.4] mb-12 tracking-tight tagline-chars" id="kol-tagline-chars">
+                我們為品牌精準媒合最適合的 KOL<br>透過其獨特風格與影響力<br class="hidden md:block">
+                將產品特性、價值與情境說進目標受眾心裡
+            </h2>
+            <p class="text-[#888888] text-[clamp(16px,2vw,20px)] leading-[1.8] font-light max-w-4xl mx-auto">
+                不僵硬、不用演，讓推薦像真實分享。
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 7: SCROLL REVEAL CTA -->
+    <section data-scroll-section id="reveal-section" class="bg-[#0a0a0a] relative overflow-hidden h-[60vh] flex items-center">
+        <div id="reveal-bg" class="absolute left-0 top-0 h-full bg-[#f33036] w-0 transition-all duration-100 ease-out"></div>
+        <div class="relative z-10 w-full page-container flex flex-col items-center justify-center text-center" style="gap:40px;">
+            <h2 class="text-white text-[clamp(24px,4.5vw,48px)] font-medium leading-[1.3]" style="margin:0;position:relative;z-index:1;">
+                選對人，說對話<br>讓信任自然轉移到品牌
+            </h2>
+            <a href="#" class="capsule-btn" style="background:#0a0a0a;color:#fff;padding:14px 32px;font-size:13px;border-radius:100px;position:relative;z-index:1;">
+                <span>立即聯繫達摩</span><span class="btn-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer data-scroll-section style="background:#060606;padding:80px 80px 40px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:40px;">
+                <div>
+                    <div style="font-size:28px;font-weight:900;margin-bottom:16px;">達摩媒體</div>
+                    <p style="font-size:14px;color:#888;line-height:1.6;margin-bottom:24px;">口碑，是最有價值的廣告</p>
+                    <div>
+                        <span style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;">10595 台北巿松山區南京東路4段126號11F之1</span>
+                        <a href="tel:+886225708111" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;text-decoration:none;transition:color 0.2s;">TEL. 02-2570-8111</a>
+                        <a href="mailto:service@dotmore.com.tw" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;">service@dotmore.com.tw</a>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">導覽</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
+                        <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
+                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">服務</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
+                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">社群</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Instagram</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Facebook</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Threads</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:rgba(255,255,255,0.25);">
+                <span>© 達摩媒體 2026 &nbsp;·&nbsp; 隱私權政策 &nbsp;·&nbsp; 服務條款</span>
+            </div>
+        </div>
+    </footer>
+
+    </div> <!-- End scroll container -->
+
+    <!-- Locomotive Scroll JS -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const nav = document.getElementById('main-nav');
+            const revealSection = document.getElementById('reveal-section');
+            const revealBg = document.getElementById('reveal-bg');
+
+            const scroller = new LocomotiveScroll({
+                el: document.querySelector('[data-scroll-container]'),
+                smooth: true,
+                multiplier: 1.1,
+                lerp: 0.08
+            });
+
+            scroller.on('scroll', (instance) => {
+                const scrollY = instance.scroll.y;
+
+                if (scrollY > 50) nav.classList.add('nav-scrolled');
+                else nav.classList.remove('nav-scrolled');
+
+                // Red Reveal Background Logic
+                const revealRect = revealSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const docHeight = document.querySelector('[data-scroll-container]').offsetHeight;
+
+                const startReveal = windowHeight;
+                const endReveal = windowHeight / 4;
+                let progress = (startReveal - revealRect.top) / (startReveal - endReveal);
+
+                if (scrollY + windowHeight >= docHeight - 20) progress = 1;
+                progress = Math.min(1, Math.max(0, progress));
+                revealBg.style.width = `${progress * 100}%`;
+            });
+
+            setTimeout(() => { scroller.update(); }, 1000);
+
+            // Menu toggle with animation
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const lines = menuToggle.querySelectorAll('span');
+            let menuOpen = false;
+
+            menuToggle.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if (menuOpen) {
+                    // Animate to X
+                    lines[0].style.transform = 'translateY(8px) rotate(45deg)';
+                    lines[1].style.opacity = '0';
+                    lines[1].style.transform = 'scaleX(0)';
+                    lines[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+                    menuOverlay.style.opacity = '1';
+                    menuOverlay.style.pointerEvents = 'all';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    // Animate back to hamburger
+                    lines[0].style.transform = '';
+                    lines[1].style.opacity = '1';
+                    lines[1].style.transform = '';
+                    lines[2].style.transform = '';
+                    menuOverlay.style.opacity = '0';
+                    menuOverlay.style.pointerEvents = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Close on Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && menuOpen) {
+                    menuToggle.click();
+                }
+            });
+        });
+    </script>
+<script>
+    // IntersectionObserver for slide-up reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.gs-reveal').forEach(el => revealObserver.observe(el));
+</script>
+<script>
+// Split tagline into individual characters with staggered delay
+(function() {
+    var el = document.getElementById('kol-tagline-chars');
+    if (!el) return;
+    var html = el.innerHTML;
+    var result = '';
+    var charIndex = 0;
+    for (var i = 0; i < html.length; i++) {
+        if (html[i] === '<') {
+            var end = html.indexOf('>', i);
+            result += html.substring(i, end + 1);
+            i = end;
+        } else if (html[i] === ' ') {
+            result += ' ';
+        } else if (html[i] === '\n') {
+            result += html[i];
+        } else {
+            var delay = charIndex * 0.03;
+            result += '<span class="char" style="transition-delay:' + delay.toFixed(2) + 's">' + html[i] + '</span>';
+            charIndex++;
+        }
+    }
+    el.innerHTML = result;
+})();
+</script>
+<script src="dodge-card.js"></script>
+</body>
+</html>

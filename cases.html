@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精彩案例 | 達摩媒體 Dotmore Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;400;700;900&family=DM+Sans:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-black: #0a0a0a;
+            --paper-white: #f5f2ee;
+            --impact-red: #f33036;
+            --editorial-gray: #888888;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: var(--paper-white);
+            font-family: 'Noto Sans TC', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 標題粗細漸變動畫 - 1.2s */
+        .weight-anim {
+            font-variation-settings: 'wght' 100;
+            transition: font-variation-settings 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cursor {
+            width: 10px;
+            height: 10px;
+            background: var(--impact-red);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        nav {
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background-color: var(--deep-black);
+        }
+
+        .nav-logo {
+            width: 140px; 
+            height: auto;
+        }
+
+        .hamburger {
+            width: 42px;
+            height: 42px;
+            background: var(--impact-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-title {
+            font-size: clamp(32px, 5.5vw, 84px);
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        /* 案例卡片系統 */
+        .case-container {
+            display: flex;
+            gap: 12px;
+            padding: 0 30px;
+            margin-bottom: 12px;
+        }
+
+        .case-card {
+            flex: 1;
+            height: 70vh;
+            background: #111;
+            position: relative;
+            overflow: hidden;
+            transition: flex 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .case-card:hover {
+            flex: 1.15;
+        }
+
+        .case-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: grayscale(100%);
+            transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .case-card:hover img {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.02);
+        }
+
+        /* Hover 時的黑色遮罩 */
+        .case-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 5;
+        }
+
+        .case-card:hover .case-overlay {
+            opacity: 1;
+        }
+
+        /* 頂部標籤 */
+        .case-tags {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+        }
+
+        .case-card:hover .case-tags {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tag {
+            padding: 6px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 100px;
+            font-size: 10px;
+            color: white;
+            white-space: nowrap;
+            letter-spacing: 0.05em;
+        }
+
+        /* 底部案例資訊 */
+        .case-info {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+        }
+
+        .case-card:hover .case-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-number {
+            font-size: clamp(32px, 4vw, 64px);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 15px;
+            letter-spacing: -0.02em;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: var(--editorial-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            line-height: 1.4;
+        }
+
+        /* 跑馬燈 */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            padding: 20px 0;
+        }
+        .marquee-content {
+            display: inline-flex;
+            animation: marquee 60s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .logo-box {
+            width: 180px;
+            height: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            transition: border-color 0.5s ease;
+        }
+        .logo-box:hover {
+            border-color: var(--impact-red);
+        }
+        .logo-box img {
+            max-width: 50%;
+            max-height: 35%;
+            filter: grayscale(100%) brightness(0.8);
+            opacity: 0.5;
+            transition: 0.5s;
+        }
+        .logo-box:hover img {
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
+        }
+
+        .capsule-btn {
+            background: var(--impact-red);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-weight: 700;
+            display: inline-block;
+            transition: 0.5s ease;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Footer Styles */
+        footer {
+            padding: 120px 80px 40px;
+            background-color: var(--deep-black);
+            color: var(--paper-white);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .footer-brand-name {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .footer-desc {
+            color: #888;
+            line-height: 1.8;
+            max-width: 320px;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        .footer-contact {
+            color: #888;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-col-title {
+            font-size: 12px;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 32px;
+            font-weight: 700;
+        }
+
+        .footer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-list a {
+            color: #888;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-list a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #444;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 32px;
+        }
+
+        .footer-social-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-social-links a {
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s;
+        }
+
+        .footer-social-links a:hover {
+            color: white;
+        }
+        .menu-link:hover { color: rgba(255,255,255,1) !important; letter-spacing: 0.15em !important; }
+        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f33036; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .menu-link:hover::before { transform: translateY(-50%) scale(1); }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        #menu-overlay.open { opacity: 1 !important; pointer-events: auto !important; }
+        @keyframes caseLetterUp { 0% { opacity:0; transform:translateY(100%); } 100% { opacity:1; transform:translateY(0); } }
+        .nav-contact-btn .btn-arrow { display:inline-block; max-width:0; opacity:0; overflow:hidden; transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1); transform:translateX(-12px); line-height:1; } .nav-contact-btn:hover .btn-arrow { max-width:40px; opacity:1; transform:translateX(10px); margin-left:10px; margin-right:8px; }
+    </style>
+</head>
+<body>
+
+    <div class="cursor" id="cursor" style="display:none;"></div>
+
+    <nav class="sticky-nav" id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:100;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
+        <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
+        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f33036;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f33036;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+        </button>
+    </nav>
+
+    <div id="menu-overlay" style="position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.97);backdrop-filter:blur(30px);opacity:0;pointer-events:none;transition:opacity 0.5s ease;">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:28px;">
+            <a href="landing.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">首頁</a>
+            <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOL 網紅口碑</a>
+            <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOC 群眾口碑</a>
+            <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">論壇操作</a>
+            <a href="social-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
+            <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">精彩案例</a>
+            <a href="article-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
+            <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">聯絡我們</a>
+        </div>
+    </div>
+
+    <main class="pt-20">
+        
+        <!-- 1. Hero Section -->
+        <section class="flex flex-col items-center justify-center px-10" style="min-height:80vh;margin-bottom:0;">
+            <div class="px-5 py-2 border border-white rounded-full text-[12px] tracking-[0.4em] mb-6 text-white uppercase font-bold">
+                精彩案例
+            </div>
+            
+            <h1 class="hero-title weight-anim" id="main-title" style="overflow:hidden;">
+                <span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.1s;">您</span><span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.18s;">最</span><span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.26s;">信</span><span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.34s;">賴</span><span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.42s;">的</span><br>
+                <span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.5s;">行</span><span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.58s;">銷</span><span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.66s;">夥</span><span class="case-letter" style="display:inline-block;opacity:0;transform:translateY(100%);animation:caseLetterUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.74s;">伴</span>
+            </h1>
+        </section>
+
+        <!-- 2. Data Stats Section -->
+        <section class="mb-20 px-20" style="overflow:hidden;margin-top:120px;">
+            <div class="flex justify-between items-start gap-10 py-24">
+                <div class="stat-item">
+                    <div class="stat-number"><span class="counter" data-target="2">0</span>X</div>
+                    <div class="stat-label">AVERAGE YEAR<br>OVER YEAR GROWTH</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><span class="counter" data-target="6">0</span></div>
+                    <div class="stat-label">CLIENT<br>EXITS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><span class="counter" data-target="200">0</span>+</div>
+                    <div class="stat-label">CLIENTS WE've<br>HELPED SCALE</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><span class="counter" data-target="10">0</span>+</div>
+                    <div class="stat-label">YEARS SCALING<br>AMBITIOUS BUSINESSES</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><span class="counter" data-target="0">0</span></div>
+                    <div class="stat-label">YAWNS IN THE<br>BOARDROOM</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Logo Marquee Section -->
+        <section class="mb-48">
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/nike/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/adidas/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/apple/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/sony/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/samsung/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/toyota/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/cocacola/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/starbucks/f5f2ee" alt=""></div>
+                    <!-- Loop -->
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/nike/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/adidas/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/apple/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/sony/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/samsung/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/toyota/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/cocacola/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img src="https://cdn.simpleicons.org/starbucks/f5f2ee" alt=""></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Case Showcase - Row 1 (newest first) -->
+        <section class="mb-3">
+            <div class="case-container">
+                <!-- Case 06 (newest): 爭鮮gogo -->
+                <a href="cases-detail6-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/06-sushiexpress-gogo/images/hero.jpg" alt="爭鮮gogo">
+                    <div class="case-overlay"></div>
+                    <div class="case-tags">
+                        <span class="tag">KOL 網紅口碑</span>
+                        <span class="tag">Podcast 宣傳</span>
+                        <span class="tag">IG 限時動態</span>
+                    </div>
+                    <div class="case-info">
+                        <h3 class="text-xl font-bold tracking-tight">爭鮮gogo：Podcast 口碑爆發</h3>
+                    </div>
+                </a>
+                <!-- Case 05: Dyson -->
+                <a href="cases-detail5-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/05/images/hero.jpg" alt="Dyson">
+                    <div class="case-overlay"></div>
+                    <div class="case-tags">
+                        <span class="tag">KOC 群眾口碑</span>
+                        <span class="tag">IG Reels</span>
+                        <span class="tag">分享數 12k+</span>
+                    </div>
+                    <div class="case-info">
+                        <h3 class="text-xl font-bold tracking-tight">Dyson：吸塵器生活流實測</h3>
+                    </div>
+                </a>
+                <!-- Case 04: Nike -->
+                <a href="cases-detail4-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/04/images/hero.jpg" alt="Nike">
+                    <div class="case-overlay"></div>
+                    <div class="case-tags">
+                        <span class="tag">KOL 網紅口碑</span>
+                        <span class="tag">Youtube 影片</span>
+                        <span class="tag">觀影數 250k+</span>
+                    </div>
+                    <div class="case-info">
+                        <h3 class="text-xl font-bold tracking-tight">Nike：Air Max 城市路跑</h3>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 4. Case Showcase - Row 2 -->
+        <section class="mb-60">
+            <div class="case-container">
+                <!-- Case 03: IKEA -->
+                <a href="cases-detail3-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/03/images/hero.jpg" alt="IKEA">
+                    <div class="case-overlay"></div>
+                    <div class="case-tags">
+                        <span class="tag">口碑論壇</span>
+                        <span class="tag">Dcard</span>
+                        <span class="tag">互動率 8.5%</span>
+                    </div>
+                    <div class="case-info">
+                        <h3 class="text-xl font-bold tracking-tight">IKEA：KOC 軟裝提案</h3>
+                    </div>
+                </a>
+                <!-- Case 02: ASUS -->
+                <a href="cases-detail2-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/02/images/hero.jpg" alt="ASUS">
+                    <div class="case-overlay"></div>
+                    <div class="case-tags">
+                        <span class="tag">KOC 群眾口碑</span>
+                        <span class="tag">脆圖文</span>
+                        <span class="tag">觀影數 50k+</span>
+                    </div>
+                    <div class="case-info">
+                        <h3 class="text-xl font-bold tracking-tight">ASUS：創作者筆電發佈</h3>
+                    </div>
+                </a>
+                <!-- Case 01 (oldest): Apple -->
+                <a href="cases-detail1-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/01/images/hero.jpg" alt="Apple">
+                    <div class="case-overlay"></div>
+                    <div class="case-tags">
+                        <span class="tag">品牌整合行銷</span>
+                        <span class="tag">跨平台操作</span>
+                        <span class="tag">總曝光 5M+</span>
+                    </div>
+                    <div class="case-info">
+                        <h3 class="text-xl font-bold tracking-tight">Apple：Shot on iPhone 影展</h3>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 5. Quote Section -->
+        <section class="mb-60">
+            <div class="max-w-4xl mx-auto text-center px-10">
+                <p class="text-2xl md:text-3xl font-light leading-relaxed mb-12 text-white/90">
+                    真正的廣告不在於製作一則廣告，<br>而在於讓媒體討論你的品牌而達成廣告。
+                </p>
+                <div class="w-12 h-[1px] bg-red-600 mx-auto mb-8"></div>
+                <h4 class="text-lg font-bold tracking-widest text-white">Philip Kotler</h4>
+                <p class="text-xs text-[#888] tracking-widest mt-2 uppercase">現代行銷學之父</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 6. Footer -->
+    <footer style="background:#060606;padding:80px 80px 40px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:40px;">
+                <div>
+                    <div style="font-size:28px;font-weight:900;margin-bottom:16px;">達摩媒體</div>
+                    <p style="font-size:14px;color:#888;line-height:1.6;margin-bottom:24px;">口碑，是最有價值的廣告</p>
+                    <div>
+                        <span style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;">10595 台北巿松山區南京東路4段126號11F之1</span>
+                        <a href="tel:+886225708111" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;text-decoration:none;transition:color 0.2s;">TEL. 02-2570-8111</a>
+                        <a href="mailto:service@dotmore.com.tw" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;">service@dotmore.com.tw</a>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">導覽</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
+                        <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
+                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">服務</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
+                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">社群</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Instagram</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Facebook</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Threads</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:rgba(255,255,255,0.25);">
+                <span>© 達摩媒體 2026 &nbsp;·&nbsp; 隱私權政策 &nbsp;·&nbsp; 服務條款</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+        });
+
+        gsap.to("#main-title", {
+            scrollTrigger: {
+                trigger: "#main-title",
+                start: "top 80%",
+                end: "bottom 20%",
+                scrub: 1,
+            },
+            fontVariationSettings: "'wght' 900",
+            ease: "none"
+        });
+
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 90%",
+                once: true,
+                onEnter: () => {
+                    let count = 0;
+                    const duration = 4000; 
+                    const startTime = performance.now();
+                    function updateCount(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeProgress = progress * (2 - progress);
+                        const currentCount = Math.floor(easeProgress * target);
+                        counter.innerText = currentCount;
+                        if (progress < 1) requestAnimationFrame(updateCount);
+                        else counter.innerText = target;
+                    }
+                    requestAnimationFrame(updateCount);
+                }
+            });
+        });
+
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section, {
+                opacity: 0,
+                y: 3,
+                duration: 0.6,
+                ease: "power1.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 90%",
+                }
+            });
+        });
+
+        const cards = document.querySelectorAll('.case-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(cursor, { scale: 5, opacity: 0.2, duration: 0.5 });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(cursor, { scale: 1, opacity: 1, duration: 0.5 });
+            });
+        });
+    </script>
+<script>
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const menuOverlay = document.getElementById("menu-overlay");
+hamburgerBtn.addEventListener("click", () => {
+    hamburgerBtn.classList.toggle("open");
+    menuOverlay.classList.toggle("open");
+});
+</script>
+</body>
+</html>

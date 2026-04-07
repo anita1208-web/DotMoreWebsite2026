@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>達摩媒體 | 脆論壇操作 Forum Marketing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;900&family=Noto+Sans+TC:wght@100..900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        html.has-scroll-smooth { overflow: hidden; }
+        .has-scroll-smooth body { overflow: hidden; }
+        :root {
+            --deep-black: #0a0a0a;
+            --pure-white: #ffffff;
+            --paper-white: #f5f2ee; 
+            --impact-red: #f33036;
+            --editorial-gray: #888888;
+            --grid-line: rgba(255, 255, 255, 0.1);
+            --grid-line-dark: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: var(--paper-white);
+            font-family: 'Noto Sans TC', 'DM Sans', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================
+           Sticky Navigation Bar
+           ========================================== */
+        /* old nav replaced */ nav.old-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 80px;
+            background-color: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-logo {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 0.1em;
+            color: var(--pure-white);
+            text-decoration: none;
+        }
+
+        .hamburger {
+            width: 48px;
+            height: 48px;
+            background-color: var(--impact-red);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            gap: 4px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hamburger:hover { transform: scale(1.1); }
+        .hamburger span { width: 20px; height: 2px; background-color: white; }
+
+        /* ==========================================
+           Hero Section
+           ========================================== */
+        .hero-wrapper { position: relative; width: 100%; overflow: hidden; padding-top: 0; }
+        .grid-container-hero { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .grid-line-v { position: absolute; top: 0; bottom: 0; width: 1px; background-color: var(--grid-line); }
+        .line-20 { left: 20%; } .line-40 { left: 40%; } .line-60 { left: 60%; } .line-80 { left: 80%; }
+
+        .hero-section, main.hero-section, main[data-hero] {
+            min-height: 100vh !important; display: grid !important; grid-template-columns: 60% 40% !important;
+            padding: 0 80px 0 80px !important; align-items: center !important; position: relative !important; z-index: 1 !important;
+        }
+
+        .headline-group { margin-bottom: 30px !important; line-height: 1 !important; }
+        .hero-tagline {
+            font-family: 'DM Sans', sans-serif !important; font-size: clamp(28px, 4vw, 56px) !important;
+            font-weight: 400 !important; color: var(--paper-white) !important; display: block !important;
+            margin-bottom: 0.1em !important; letter-spacing: -0.01em !important;
+        }
+        .h1-hero { font-size: clamp(32px, 6vw, 80px) !important; font-weight: 500 !important; line-height: 1.1 !important; letter-spacing: -0.02em !important; margin: 0 !important; }
+        .body-text-standard { font-size: 15px !important; font-weight: 400 !important; line-height: 1.8 !important; max-width: 580px !important; opacity: 0.9 !important; }
+        .quote-box { border: 1px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 40px !important; max-width: 320px !important; background: rgba(255, 255, 255, 0.02) !important; backdrop-filter: blur(10px) !important; }
+        .quote-text { font-size: 18px !important; font-weight: 700 !important; line-height: 1.6 !important; color: var(--paper-white) !important; margin: 0 !important; }
+
+        /* Hero load-in animation */
+        @keyframes heroSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-anim { opacity: 0; animation: heroSlideUp 0.8s ease forwards; }
+
+        /* --- Global Button Animation --- */
+        .capsule-btn {
+            background-color: var(--impact-red) !important; color: white !important; padding: 12px 28px !important; border-radius: 100px !important; font-weight: 700 !important;
+            display: inline-flex !important; align-items: center !important; justify-content: center !important; text-transform: uppercase !important;
+            font-size: 13px !important; cursor: pointer !important; text-decoration: none !important; margin-top: 40px !important;
+            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .capsule-btn:hover { background-color: #d6282d !important; }
+        .content-right { display: flex !important; align-items: center !important; justify-content: flex-end !important; }
+        .btn-arrow { 
+            display: inline-block; max-width: 0; opacity: 0; overflow: hidden; margin-left: 0; line-height: 1; 
+            font-size: 16px; transform: translateX(-12px); transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); 
+        }
+        .capsule-btn:hover .btn-arrow { max-width: 40px; opacity: 1; transform: translateX(10px); margin-left: 10px; margin-right: 8px; }
+
+        .quote-box { border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; padding: 40px; max-width: 320px; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); }
+        .quote-text { font-size: 18px; font-weight: 700; line-height: 1.6; color: var(--paper-white); }
+
+        /* ==========================================
+           Editorial Grid System (40/60)
+           ========================================== */
+        .editorial-section { position: relative; z-index: 1; border-top: 1px solid var(--grid-line); background-color: var(--deep-black); }
+        .editorial-flex-container { display: flex; flex-direction: column; width: 100%; }
+        @media (min-width: 768px) { .editorial-flex-container { flex-direction: row; } }
+
+        .editorial-box {
+            position: relative; overflow: hidden; min-width: 0; border-color: rgba(255, 255, 255, 0.1);
+            transition: flex 1.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s ease;
+            padding: 80px 40px;
+        }
+        .box-left { flex: 40 1 0%; }
+        .box-right { flex: 60 1 0%; }
+
+        @media (min-width: 768px) {
+            .editorial-box:hover { background-color: rgba(255, 255, 255, 0.02); }
+            .box-left:hover { flex: 44 1 0%; }
+            .box-right:hover { flex: 64 1 0%; }
+        }
+
+        .box-title { font-size: 32px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.01em; line-height: 1.3; }
+        .editorial-full-row { padding: 100px 80px; border-bottom: 1px solid var(--grid-line); }
+        .body-text-expanded { font-size: 15px; font-weight: 400; line-height: 2.0; max-width: 800px; opacity: 1; color: var(--paper-white); }
+
+        /* Pure White Row Styles */
+        .editorial-row-pure-white { background-color: var(--pure-white); color: var(--deep-black); border-top: 1px solid var(--grid-line-dark); }
+        .editorial-row-pure-white .box-title { color: var(--deep-black); }
+        .editorial-row-pure-white .editorial-box { border-color: var(--grid-line-dark); }
+        .editorial-row-pure-white .body-text-expanded { color: var(--deep-black); }
+
+        /* ==========================================
+           Timeline Visual Styles (Sticky Rail)
+           ========================================== */
+        .timeline-rail { position: relative; align-self: stretch; }
+        .calendar-sticky-wrapper {
+            position: sticky;
+            top: 180px;
+            padding-left: 80px;
+            padding-bottom: 100px;
+        }
+
+        .timeline-label { 
+            font-family: 'Space Mono', monospace; font-size: 11px; 
+            letter-spacing: 0.25em; color: #bbbbbb; 
+            margin-bottom: 30px; display: block; 
+        }
+
+        .calendar-grid-stack { display: flex; flex-direction: column; gap: 40px; width: fit-content; }
+        
+        /* 精確鎖定 7 個位置寬度 */
+        .month-grid { 
+            display: grid; grid-template-columns: repeat(7, 20px);
+            gap: 10px; width: fit-content;
+        }
+        
+        .cal-dot { 
+            width: 20px; height: 20px; border-radius: 50%; border: 1px solid #eeeeee; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 8px; font-family: 'Space Mono', monospace; color: #bbbbbb; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .cal-dot.active { background-color: var(--impact-red); border-color: var(--impact-red); color: white; transform: scale(1.15); box-shadow: 0 4px 10px rgba(243, 48, 54, 0.2); }
+        .calendar-grid-stack.is-active .cal-dot:not(.active) { opacity: 0.15; filter: grayscale(1); }
+
+        .stage-scroller { padding: 80px 40px 200px 40px; }
+        .stage-entry { padding: 48px 0; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stage-entry:hover { transform: translateX(20px); }
+        
+        .stage-label { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: #dddddd; margin-bottom: 10px; display: block; transition: color 0.3s; }
+        .stage-entry:hover .stage-label { color: var(--impact-red); }
+        .stage-name { font-size: 24px; font-weight: 700; color: var(--deep-black); margin-bottom: 16px; }
+        .stage-info { font-size: 15px; line-height: 1.8; color: #777777; max-width: 580px; }
+        .duration-tag { font-size: 11px; color: var(--impact-red); font-weight: 700; margin-left: 12px; border: 1px solid var(--impact-red); padding: 1px 8px; border-radius: 50px; vertical-align: middle; }
+
+        /* ==========================================
+           Red Reveal CTA Section
+           ========================================== */
+        .reveal-cta-section {
+            position: relative; background-color: var(--deep-black); overflow: hidden;
+            padding: 15vh 80px; min-height: 40vh; display: flex; align-items: center;
+        }
+
+        .reveal-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--impact-red); transform: scaleX(0); transform-origin: left; 
+            transition: transform 0.1s ease-out; z-index: 0;
+        }
+
+        .cta-content-wrapper {
+            position: relative; z-index: 2; display: flex; justify-content: space-between; 
+            align-items: center; width: 100%;
+        }
+
+        .cta-headline { font-size: clamp(28px, 4.5vw, 64px); font-weight: 900; line-height: 1.2; color: white; max-width: 850px; letter-spacing: -0.02em; }
+
+        /* 黑底紅字膠囊按鈕，同步全站動畫 */
+        .reveal-black-btn {
+            background-color: var(--deep-black); color: var(--impact-red); padding: 18px 48px; border-radius: 100px;
+            font-weight: 900; display: inline-flex; align-items: center; justify-content: center;
+            text-transform: uppercase; font-size: 16px; cursor: pointer; text-decoration: none;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.3);
+        }
+        .reveal-black-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            background-color: #111111;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .reveal-black-btn .btn-arrow { color: var(--impact-red); }
+        .reveal-black-btn:hover .btn-arrow { max-width: 40px; opacity: 1; transform: translateX(10px); margin-left: 10px; margin-right: 8px; }
+
+        /* ==========================================
+           Footer
+           ========================================== */
+        footer {
+            background-color: var(--deep-black); padding: 120px 80px 80px 80px;
+            border-top: 1px solid var(--impact-red); color: white;
+        }
+        .footer-grid { display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr; gap: 60px; }
+        .footer-brand h2 { font-size: 36px; font-weight: 900; margin-bottom: 24px; letter-spacing: -0.01em; }
+        .footer-desc { font-size: 15px; line-height: 1.8; color: #aaaaaa; max-width: 320px; margin-bottom: 40px; }
+        .footer-contact { font-size: 14px; color: #666666; display: flex; flex-direction: column; gap: 8px; }
+        .footer-column-title { font-size: 13px; font-weight: 700; color: #666666; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 0.1em; }
+        .footer-links { display: flex; flex-direction: column; gap: 16px; }
+        .footer-links a { color: white; text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--impact-red); }
+
+        nav.sticky-nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            z-index: 100; display: flex; align-items: center; justify-content: space-between;
+            padding: 32px 80px; transition: all 0.5s ease;
+            background: transparent;
+        }
+        @media (max-width: 768px) { nav.sticky-nav { padding: 20px 20px; } }
+        .hamburger-btn {
+            width: 48px; height: 48px; background: #f33036; border: none; border-radius: 50%;
+            cursor: pointer; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 6px; padding: 0; z-index: 200; transition: transform 0.3s ease;
+        }
+        .hamburger-btn:hover { transform: scale(1.08); }
+        .hamburger-btn span {
+            display: block; width: 20px; height: 2px; background: white; border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.23,1,0.32,1); transform-origin: center;
+        }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; width: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        #menu-overlay {
+            position: fixed; inset: 0; z-index: 99; display: flex; align-items: center;
+            justify-content: center; background: rgba(10,10,10,0.97); backdrop-filter: blur(30px);
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        #menu-overlay.open { opacity: 1; pointer-events: auto; }
+        .menu-link {
+            font-size: 18px; font-weight: 400; color: rgba(255,255,255,1); text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1); letter-spacing: 0.08em; text-transform: uppercase;
+            position: relative; padding-left: 20px;
+        }
+        .menu-link::before {
+            content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 8px;
+            background: #f33036; border-radius: 50%; transform: translateY(-50%) scale(0);
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .menu-link:hover { color: rgba(255,255,255,1); transform: scale(1.15); letter-spacing: 0.12em; }
+        .menu-link:hover::before { transform: translateY(-50%) scale(1); }
+
+        /* Scroll reveal animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Calendar (outside scroll container for proper fixed positioning) -->
+    <div id="forum-calendar-float" style="position:fixed;left:80px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity 0.6s ease;z-index:50;pointer-events:none;">
+        <span style="font-family:'Noto Sans TC',sans-serif;font-size:11px;font-weight:700;color:#0a0a0a;opacity:0.5;letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:20px;">PROJECT TIMELINE</span>
+        <div class="calendar-grid-stack" id="timeline-calendar" style="gap:24px;">
+            <div class="month-grid">
+                <div class="cal-dot" data-day="1">01</div><div class="cal-dot" data-day="2">02</div><div class="cal-dot" data-day="3">03</div><div class="cal-dot" data-day="4">04</div><div class="cal-dot" data-day="5">05</div><div class="cal-dot" data-day="6">06</div><div class="cal-dot" data-day="7">07</div>
+                <div class="cal-dot" data-day="8">08</div><div class="cal-dot" data-day="9">09</div><div class="cal-dot" data-day="10">10</div><div class="cal-dot" data-day="11">11</div><div class="cal-dot" data-day="12">12</div><div class="cal-dot" data-day="13">13</div><div class="cal-dot" data-day="14">14</div>
+                <div class="cal-dot" data-day="15">15</div><div class="cal-dot" data-day="16">16</div><div class="cal-dot" data-day="17">17</div><div class="cal-dot" data-day="18">18</div><div class="cal-dot" data-day="19">19</div><div class="cal-dot" data-day="20">20</div><div class="cal-dot" data-day="21">21</div>
+                <div class="cal-dot" data-day="22">22</div><div class="cal-dot" data-day="23">23</div><div class="cal-dot" data-day="24">24</div><div class="cal-dot" data-day="25">25</div><div class="cal-dot" data-day="26">26</div><div class="cal-dot" data-day="27">27</div><div class="cal-dot" data-day="28">28</div>
+                <div class="cal-dot" data-day="29">29</div><div class="cal-dot" data-day="30">30</div><div class="cal-dot" data-day="31">31</div>
+            </div>
+            <div class="month-grid">
+                <div class="cal-dot" data-day="32">01</div><div class="cal-dot" data-day="33">02</div><div class="cal-dot" data-day="34">03</div><div class="cal-dot" data-day="35">04</div><div class="cal-dot" data-day="36">05</div><div class="cal-dot" data-day="37">06</div><div class="cal-dot" data-day="38">07</div>
+                <div class="cal-dot" data-day="39">08</div><div class="cal-dot" data-day="40">09</div><div class="cal-dot" data-day="41">10</div><div class="cal-dot" data-day="42">11</div><div class="cal-dot" data-day="43">12</div><div class="cal-dot" data-day="44">13</div><div class="cal-dot" data-day="45">14</div>
+            </div>
+        </div>
+        <p style="font-family:'Noto Sans TC',sans-serif;font-size:11px;color:#0a0a0a;opacity:0.4;margin-top:20px;">具體時程根據各專案而定（約 40-45 天）</p>
+    </div>
+
+    <!-- Sticky Nav -->
+    <nav class="sticky-nav" id="main-nav">
+        <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+    <div id="menu-overlay">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:28px;">
+            <a href="landing.html" class="menu-link">首頁</a>
+            <a href="influencer.html" class="menu-link">KOL 網紅口碑</a>
+            <a href="koc.html" class="menu-link">KOC 群眾口碑</a>
+            <a href="forum.html" class="menu-link">論壇操作</a>
+            <a href="social-converted.html" class="menu-link">社群動能</a>
+            <a href="cases.html" class="menu-link">精彩案例</a>
+            <a href="article-converted.html" class="menu-link">文章</a>
+            <a href="contact.html" class="menu-link">聯絡我們</a>
+        </div>
+    </div>
+
+    <div data-scroll-container id="scroll-container">
+    <div class="hero-wrapper">
+        <div class="grid-container-hero">
+            <div class="grid-line-v line-20"></div><div class="grid-line-v line-40"></div>
+            <div class="grid-line-v line-60"></div><div class="grid-line-v line-80"></div>
+        </div>
+        <main class="hero-section" data-hero>
+            <div class="content-left">
+                <div class="headline-group">
+                    <div style="position:relative;display:inline-block;margin-bottom:28px;padding-left:4px;">
+                        <span style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;font-weight:400;color:rgba(255,255,255,0.6);letter-spacing:0.02em;">Forum Marketing</span>
+                        <svg width="20" height="24" viewBox="0 0 20 24" fill="none" style="position:absolute;left:0;bottom:-22px;transform:rotate(5deg);">
+                            <path d="M10 0 C9 8, 8 16, 10 22" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                            <path d="M6 18 L10 22 L14 18" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="hero-tagline hero-anim" style="animation-delay:0.1s;">論壇操作</span>
+                    <h1 class="h1-hero hero-anim" style="animation-delay:0.25s;">把品牌放進<br>正在發生的對話裡</h1>
+                </div>
+                <p class="body-text-standard hero-anim" style="animation-delay:0.45s;">購物前上網搜尋、看心得、查討論已成為常態。真正影響決策的，往往不是品牌說了什麼，而是「人們怎麼討論你」。</p>
+                <a href="#" class="capsule-btn shadow-lg hero-anim" style="animation-delay:0.6s;">
+                    <span>專人諮詢</span>
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+            <div class="content-right hero-anim" style="animation-delay:0.5s;">
+                <div class="quote-box" id="dodge-card">
+                    <p class="quote-text">"超過 72% 的用戶表示，論壇上的真實討論直接影響了他們對品牌的好感度。"</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <section class="editorial-section">
+        <!-- Threads Section - Landing style -->
+        <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);min-height:620px;">
+            <div style="flex:3;border-right:1px solid rgba(255,255,255,0.1);position:relative;overflow:hidden;cursor:pointer;transition:flex 800ms ease-in-out;"
+                onmouseenter="this.style.flex='3.15'; this.querySelector('.forum-overlay').style.opacity='1'; this.querySelector('.forum-overlay').style.background='rgba(0,0,0,0.5)'; this.querySelector('.forum-case-btn').style.opacity='1'; this.querySelector('.forum-case-btn').style.transform='translateY(0)';"
+                onmouseleave="this.style.flex='3'; this.querySelector('.forum-overlay').style.opacity='0'; this.querySelector('.forum-overlay').style.background='rgba(0,0,0,0)'; this.querySelector('.forum-case-btn').style.opacity='0'; this.querySelector('.forum-case-btn').style.transform='translateY(20px)';">
+                <div class="forum-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,0);opacity:0;transition:all 600ms ease;display:flex;align-items:center;justify-content:center;z-index:15;">
+                    <div class="forum-case-btn" style="border:1.5px solid rgba(255,255,255,0.85);border-radius:40px;padding:18px 44px;cursor:pointer;background:transparent;transition:all 0.4s ease;opacity:0;transform:translateY(20px);"
+                        onmouseenter="this.style.background='rgba(255,255,255,0.15)'"
+                        onmouseleave="this.style.background='transparent'">
+                        <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#fff;letter-spacing:0.18em;white-space:nowrap;">精彩案例</span>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;justify-content:flex-end;padding:60px 80px;flex:2;transition:flex 800ms ease-in-out;"
+                onmouseenter="this.style.flex='2.15'"
+                onmouseleave="this.style.flex='2'">
+                <h2 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:-0.01em;color:#fff;margin:0 0 16px 0;">Threads 脆論壇</h2>
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#ffffff;margin:0;line-height:1.5;letter-spacing:0.02em;">品牌的即時共振引擎：用當下語氣進場，讓話題自己長大</p>
+            </div>
+        </div>
+
+        <!-- Threads body text row -->
+        <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);min-height:350px;position:relative;">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:80px 120px;">
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);margin:0 0 24px;line-height:1.9;">Threads 的速度快、情緒真、互動密度高。</p>
+                <h2 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:-0.01em;color:#fff;margin:0 0 24px;line-height:1.3;">它不是「經營粉專」的邏輯<br>而是「參與對話」的戰場</h2>
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);margin:0;line-height:1.9;">你要做的不是完美包裝，而是反應力、共鳴感、與人味。<br>我們擅長把品牌核心翻譯成平台聽得懂的語氣，<br>讓你不必硬打廣告，也能自然成為討論的一部分——<br>從一則貼文開始，擴散成可追蹤的聲量波紋。</p>
+            </div>
+        </div>
+
+        <!-- Threads 執行流程 - exact KOC layout -->
+        <div style="background:#0a0a0a; padding:120px 0 0; position:relative; border-bottom:1px solid rgba(255,255,255,0.1);">
+            <div style="margin:0 auto; padding:0 40px;">
+                <h2 style="text-align:center; font-family:'Noto Sans TC',sans-serif; font-size:clamp(28px,4.5vw,56px); font-weight:500; letter-spacing:0.02em; margin-bottom:72px; color:#ffffff;">
+                    Threads 執行<span class="weight-target" style="color:#f33036;">流程</span>
+                </h2>
+                <div style="display:flex; position:relative; gap:0; min-height:500px;">
+                    <div style="position:absolute; top:0; bottom:0; left:33.333%; width:1px; background:rgba(255,255,255,0.1); pointer-events:none;"></div>
+                    <div style="position:absolute; top:0; bottom:0; left:66.666%; width:1px; background:rgba(255,255,255,0.1); pointer-events:none;"></div>
+
+                    <div style="flex:1; padding:80px 100px 80px 100px;">
+                        <span style="font-family:'Space Mono',monospace; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.08em; display:block; margin-bottom:18px;">01/03</span>
+                        <h3 style="font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:700; color:#ffffff; margin-bottom:14px; line-height:1.4;">即時情緒捕捉</h3>
+                        <p style="font-family:'Noto Sans TC',sans-serif; font-size:13px; color:rgba(255,255,255,0.5); line-height:1.9; margin-bottom:28px;">Trend & Emotion Radar<br><br>監測 Threads 的熱門情緒、關鍵字、梗與爭點，<br>找到與品牌最契合的切入角度：<br>跟得上、也不硬蹭。</p>
+                    </div>
+
+                    <div style="flex:1; padding:160px 100px 80px 100px;">
+                        <span style="font-family:'Space Mono',monospace; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.08em; display:block; margin-bottom:18px;">02/03</span>
+                        <h3 style="font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:700; color:#ffffff; margin-bottom:14px; line-height:1.4;">「脆體」語氣轉化</h3>
+                        <p style="font-family:'Noto Sans TC',sans-serif; font-size:13px; color:rgba(255,255,255,0.5); line-height:1.9; margin-bottom:28px;">Voice & Tone Playbook<br><br>把品牌的專業訊息轉譯成 Threads 風格：<br>短、準、聰明、帶幽默但不失分寸。<br>讓品牌看起來不是在「推銷」，<br>而是在「懂這群人」。</p>
+                    </div>
+
+                    <div style="flex:1; padding:80px 100px 80px 100px;">
+                        <span style="font-family:'Space Mono',monospace; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.08em; display:block; margin-bottom:18px;">03/03</span>
+                        <h3 style="font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:700; color:#ffffff; margin-bottom:14px; line-height:1.4;">漣漪效應觸發</h3>
+                        <p style="font-family:'Noto Sans TC',sans-serif; font-size:13px; color:rgba(255,255,255,0.5); line-height:1.9; margin-bottom:28px;">Ripple Engagement<br><br>用高品質互動回覆、觀點補充、轉發延伸，<br>讓單點貼文變成一段可持續的對話串——<br>把討論從「看到」推進到「參與」。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PTT Section - Landing style (reversed) -->
+        <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);min-height:620px;">
+            <div style="display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;text-align:right;padding:60px 80px;flex:2;transition:flex 800ms ease-in-out;"
+                onmouseenter="this.style.flex='2.15'"
+                onmouseleave="this.style.flex='2'">
+                <h2 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:-0.01em;color:#fff;margin:0 0 16px 0;">論壇佈局 PTT / Dcard</h2>
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#ffffff;margin:0;line-height:1.5;letter-spacing:0.02em;">決策最後一哩路：在最懷疑的地方，留下最穩的證據</p>
+            </div>
+            <div style="flex:3;border-left:1px solid rgba(255,255,255,0.1);position:relative;overflow:hidden;cursor:pointer;transition:flex 800ms ease-in-out;"
+                onmouseenter="this.style.flex='3.15'; this.querySelector('.forum-overlay2').style.opacity='1'; this.querySelector('.forum-overlay2').style.background='rgba(0,0,0,0.5)'; this.querySelector('.forum-case-btn2').style.opacity='1'; this.querySelector('.forum-case-btn2').style.transform='translateY(0)';"
+                onmouseleave="this.style.flex='3'; this.querySelector('.forum-overlay2').style.opacity='0'; this.querySelector('.forum-overlay2').style.background='rgba(0,0,0,0)'; this.querySelector('.forum-case-btn2').style.opacity='0'; this.querySelector('.forum-case-btn2').style.transform='translateY(20px)';">
+                <div class="forum-overlay2" style="position:absolute;inset:0;background:rgba(0,0,0,0);opacity:0;transition:all 600ms ease;display:flex;align-items:center;justify-content:center;z-index:15;">
+                    <div class="forum-case-btn2" style="border:1.5px solid rgba(255,255,255,0.85);border-radius:40px;padding:18px 44px;cursor:pointer;background:transparent;transition:all 0.4s ease;opacity:0;transform:translateY(20px);"
+                        onmouseenter="this.style.background='rgba(255,255,255,0.15)'"
+                        onmouseleave="this.style.background='transparent'">
+                        <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#fff;letter-spacing:0.18em;white-space:nowrap;">精彩案例</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PTT body text row -->
+        <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.1);min-height:350px;position:relative;">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:80px 120px;">
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);margin:0 0 24px;line-height:1.9;">論壇與討論區的價值在於：</p>
+                <h2 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:-0.01em;color:#fff;margin:0 0 24px;line-height:1.3;">它會被搜尋、會被比較<br>會被當成最後的判斷依據</h2>
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);margin:0;line-height:1.9;">Threads 讓你被討論；論壇讓你在「查證那一刻」不失分。</p>
+            </div>
+        </div>
+
+        <!-- 論壇執行流程 - 3 column staggered -->
+        <div style="background:#0a0a0a; padding:120px 0 0; position:relative; border-bottom:1px solid rgba(255,255,255,0.1);">
+            <div style="margin:0 auto; padding:0 40px;">
+                <h2 style="text-align:center; font-family:'Noto Sans TC',sans-serif; font-size:clamp(28px,4.5vw,56px); font-weight:500; letter-spacing:0.02em; margin-bottom:72px; color:#ffffff;">
+                    論壇執行<span class="weight-target" style="color:#f33036;">流程</span>
+                </h2>
+                <div style="display:flex; position:relative; gap:0; min-height:500px;">
+                    <div style="position:absolute; top:0; bottom:0; left:33.333%; width:1px; background:rgba(255,255,255,0.1); pointer-events:none;"></div>
+                    <div style="position:absolute; top:0; bottom:0; left:66.666%; width:1px; background:rgba(255,255,255,0.1); pointer-events:none;"></div>
+
+                    <div style="flex:1; padding:80px 100px 80px 100px;">
+                        <span style="font-family:'Space Mono',monospace; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.08em; display:block; margin-bottom:18px;">01/03</span>
+                        <h3 style="font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:700; color:#ffffff; margin-bottom:14px; line-height:1.4;">社群角色與發聲規劃</h3>
+                        <p style="font-family:'Noto Sans TC',sans-serif; font-size:13px; color:rgba(255,255,255,0.5); line-height:1.9; margin-bottom:28px;">建立發聲規則、語氣與回覆原則，<br>確保每一次互動都達到同一個目標。</p>
+                    </div>
+
+                    <div style="flex:1; padding:160px 100px 80px 100px;">
+                        <span style="font-family:'Space Mono',monospace; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.08em; display:block; margin-bottom:18px;">02/03</span>
+                        <h3 style="font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:700; color:#ffffff; margin-bottom:14px; line-height:1.4;">版位適配與切角設計</h3>
+                        <p style="font-family:'Noto Sans TC',sans-serif; font-size:13px; color:rgba(255,255,255,0.5); line-height:1.9; margin-bottom:28px;">各討論區的版規、受眾與雷點不同。<br>用能引發共鳴的題目與情境切入，<br>讓內容像對話、像分享，<br>而不是像廣告。</p>
+                    </div>
+
+                    <div style="flex:1; padding:80px 100px 80px 100px;">
+                        <span style="font-family:'Space Mono',monospace; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.08em; display:block; margin-bottom:18px;">03/03</span>
+                        <h3 style="font-family:'Noto Sans TC',sans-serif; font-size:22px; font-weight:700; color:#ffffff; margin-bottom:14px; line-height:1.4;">口碑監測與危機預警</h3>
+                        <p style="font-family:'Noto Sans TC',sans-serif; font-size:13px; color:rgba(255,255,255,0.5); line-height:1.9; margin-bottom:28px;">追蹤正負聲量、常見疑慮與誤解來源，<br>提供監測報告與建議處置，<br>讓品牌能更快回應、更少損耗。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Timeline -->
+        <div id="timeline-section" style="background:#fff;border-top:1px solid rgba(0,0,0,0.1);">
+            <!-- Standalone Title -->
+            <div style="padding:120px 80px 120px;text-align:center;background:#fff;">
+                <h3 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:0.02em;color:#0a0a0a;margin:0;">專案佈局<span class="weight-target" style="color:#f33036;">時程</span></h3>
+            </div>
+
+            <!-- Timeline Container -->
+            <div style="position:relative;background:#fff;">
+                <!-- Calendar moved outside scroll container -->
+
+                <!-- Centered Stages -->
+                <div style="display:flex;flex-direction:column;align-items:center;padding:40px 0;">
+                    <div class="js-timeline-trigger" data-range="1,3" style="margin-bottom:200px;text-align:center;">
+                        <span style="display:inline-block;border:1.5px solid rgba(0,0,0,0.2);border-radius:100px;padding:6px 20px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:#0a0a0a;margin-bottom:12px;">Stage 1</span>
+                        <h4 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;margin:0 0 8px;line-height:1.4;">需求訪談與目標定義</h4>
+                        <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#0a0a0a;opacity:0.5;margin:0;">釐清品牌核心、鎖定受眾特徵、設定溝通禁語與風險預判。</p>
+                    </div>
+
+                    <div class="js-timeline-trigger" data-range="4,10" style="margin-bottom:200px;text-align:center;">
+                        <span style="display:inline-block;border:1.5px solid rgba(0,0,0,0.2);border-radius:100px;padding:6px 20px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:#0a0a0a;margin-bottom:12px;">Stage 2</span>
+                        <h4 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;margin:0 0 8px;line-height:1.4;">策略與企劃提案</h4>
+                        <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#0a0a0a;opacity:0.5;margin:0;">規劃 Threads 的話題引爆點，並同步安排論壇端的內容承接路徑。</p>
+                    </div>
+
+                    <div class="js-timeline-trigger" data-range="11,18" style="margin-bottom:200px;text-align:center;">
+                        <span style="display:inline-block;border:1.5px solid rgba(0,0,0,0.2);border-radius:100px;padding:6px 20px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:#0a0a0a;margin-bottom:12px;">Stage 3</span>
+                        <h4 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;margin:0 0 8px;line-height:1.4;">內容腳本與語氣規範</h4>
+                        <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#0a0a0a;opacity:0.5;margin:0;">撰寫具備「脆體」感的貼文與互動腳本，建立 FAQ 應對原則。</p>
+                    </div>
+
+                    <div class="js-timeline-trigger" data-range="19,35" style="margin-bottom:200px;text-align:center;">
+                        <span style="display:inline-block;border:1.5px solid rgba(0,0,0,0.2);border-radius:100px;padding:6px 20px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:#0a0a0a;margin-bottom:12px;">Stage 4</span>
+                        <h4 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;margin:0 0 8px;line-height:1.4;">上線與互動運營</h4>
+                        <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#0a0a0a;opacity:0.5;margin:0;">正式進入發聲期。透過即時回覆、觀點延伸與話題擴散。</p>
+                    </div>
+
+                    <div class="js-timeline-trigger" data-range="36,45" style="margin-bottom:200px;text-align:center;">
+                        <span style="display:inline-block;border:1.5px solid rgba(0,0,0,0.2);border-radius:100px;padding:6px 20px;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:#0a0a0a;margin-bottom:12px;">Stage 5</span>
+                        <h4 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;margin:0 0 8px;line-height:1.4;">結案報告與長尾優化</h4>
+                        <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#0a0a0a;opacity:0.5;margin:0;">整理可用內容庫，分析討論留痕效果，並提出下一階段戰略。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Red Reveal CTA -->
+        <div id="final-reveal" style="background-color:var(--deep-black);color:var(--pure-white);position:relative;z-index:30;min-height:60vh;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <div id="reveal-fill" style="position:absolute;top:0;left:0;height:100%;width:100%;background-color:var(--impact-red);transform:translateX(-100%);transition:transform 0.1s linear;z-index:1;"></div>
+            <div style="position:relative;z-index:10;width:100%;padding:0 80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:40px;">
+                <h2 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(24px,4.5vw,48px);font-weight:500;line-height:1.3;letter-spacing:-0.01em;margin:0;color:#fff;">讓共鳴<br>從對話變成信任</h2>
+                <a href="#" style="background:var(--deep-black);color:#fff;padding:14px 32px;font-size:13px;border-radius:100px;text-decoration:none;display:inline-flex;align-items:center;font-weight:700;text-transform:uppercase;transition:background 0.6s cubic-bezier(0.16,1,0.3,1);white-space:nowrap;" onmouseenter="this.style.background='#1a1a1a';this.querySelector('.btn-arrow').style.maxWidth='40px';this.querySelector('.btn-arrow').style.opacity='1';this.querySelector('.btn-arrow').style.transform='translateX(10px)';this.querySelector('.btn-arrow').style.marginLeft='10px';this.querySelector('.btn-arrow').style.marginRight='8px';" onmouseleave="this.style.background='var(--deep-black)';this.querySelector('.btn-arrow').style.maxWidth='0';this.querySelector('.btn-arrow').style.opacity='0';this.querySelector('.btn-arrow').style.transform='translateX(-12px)';this.querySelector('.btn-arrow').style.marginLeft='0';this.querySelector('.btn-arrow').style.marginRight='0';">
+                    <span>立即聯繫達摩</span>
+                    <span class="btn-arrow" style="display:inline-block;max-width:0;opacity:0;overflow:hidden;transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1);transform:translateX(-12px);line-height:1;">→</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+    <footer style="background:#060606;padding:80px 80px 40px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:40px;">
+                <div>
+                    <div style="font-size:28px;font-weight:900;margin-bottom:16px;">達摩媒體</div>
+                    <p style="font-size:14px;color:#888;line-height:1.6;margin-bottom:24px;">口碑，是最有價值的廣告</p>
+                    <div>
+                        <span style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;">10595 台北巿松山區南京東路4段126號11F之1</span>
+                        <a href="tel:+886225708111" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;text-decoration:none;transition:color 0.2s;">TEL. 02-2570-8111</a>
+                        <a href="mailto:service@dotmore.com.tw" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;">service@dotmore.com.tw</a>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">導覽</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
+                        <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
+                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">服務</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
+                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">社群</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Instagram</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Facebook</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Threads</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:rgba(255,255,255,0.25);">
+                <span>© 達摩媒體 2026 &nbsp;·&nbsp; 隱私權政策 &nbsp;·&nbsp; 服務條款</span>
+            </div>
+        </div>
+    </footer>
+
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Timeline Calendar Fade Logic ---
+            const timelineSection = document.getElementById('timeline-section');
+            const calendarFloat = document.getElementById('forum-calendar-float');
+
+            if (timelineSection && calendarFloat) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            calendarFloat.style.opacity = '1';
+                        } else {
+                            calendarFloat.style.opacity = '0';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                observer.observe(timelineSection);
+
+                // Keep calendar fixed while scrolling through section
+                window.addEventListener('scroll', () => {
+                    const rect = timelineSection.getBoundingClientRect();
+                    const sectionTop = rect.top;
+                    const sectionBottom = rect.bottom;
+                    const viewH = window.innerHeight;
+
+                    if (sectionTop < viewH && sectionBottom > 0) {
+                        calendarFloat.style.position = 'fixed';
+                        calendarFloat.style.left = '80px';
+                        calendarFloat.style.top = '50%';
+                        calendarFloat.style.transform = 'translateY(-50%)';
+                    } else {
+                        calendarFloat.style.position = 'absolute';
+                        calendarFloat.style.left = '80px';
+                        calendarFloat.style.top = '50%';
+                        calendarFloat.style.transform = 'translateY(-50%)';
+                    }
+                });
+            }
+
+            // --- Timeline Interaction Logic ---
+            const triggers = document.querySelectorAll('.js-timeline-trigger');
+            const dots = document.querySelectorAll('.cal-dot');
+            const calendar = document.getElementById('timeline-calendar');
+
+            // Highlight on hover
+            triggers.forEach(trigger => {
+                trigger.addEventListener('mouseenter', () => {
+                    const range = trigger.getAttribute('data-range').split(',').map(Number);
+                    calendar.classList.add('is-active');
+                    dots.forEach(dot => {
+                        const day = parseInt(dot.getAttribute('data-day'));
+                        if (day >= range[0] && (range.length === 1 ? day === range[0] : day <= range[1])) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                });
+                trigger.addEventListener('mouseleave', () => {
+                    calendar.classList.remove('is-active');
+                    dots.forEach(dot => dot.classList.remove('active'));
+                });
+            });
+
+            // Highlight on scroll into view
+            const stageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const range = entry.target.getAttribute('data-range').split(',').map(Number);
+                        calendar.classList.add('is-active');
+                        dots.forEach(dot => {
+                            const day = parseInt(dot.getAttribute('data-day'));
+                            if (day >= range[0] && day <= range[1]) {
+                                dot.classList.add('active');
+                            } else {
+                                dot.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            triggers.forEach(trigger => stageObserver.observe(trigger));
+
+            // --- Horizontal Red Reveal Logic ---
+            const finalSection = document.getElementById('final-reveal');
+            const revealFill = document.getElementById('reveal-fill');
+
+            // Red reveal now handled in Locomotive Scroll handler
+        });
+    </script>
+    </div><!-- end scroll-container -->
+
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script>
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const menuOverlay = document.getElementById("menu-overlay");
+        hamburgerBtn.addEventListener("click", () => {
+            hamburgerBtn.classList.toggle("open");
+            menuOverlay.classList.toggle("open");
+        });
+
+        // Initialize Locomotive Scroll
+        const scroller = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            multiplier: 1.1,
+            lerp: 0.08
+        });
+
+        scroller.on("scroll", (instance) => {
+            const viewHeight = window.innerHeight;
+            // Dynamic font weight
+            document.querySelectorAll(".weight-target").forEach(el => {
+                const rect = el.getBoundingClientRect();
+                let progress = 1 - (rect.top / (viewHeight * 0.9));
+                progress = Math.max(0, Math.min(1.1, progress));
+                const baseWeight = 100;
+                const weightRange = 800;
+                el.style.fontWeight = Math.floor(baseWeight + (progress * weightRange));
+            });
+
+            // Calendar fade in/out
+            var calFloat = document.getElementById("forum-calendar-float");
+            var tlSection = document.getElementById("timeline-section");
+            if (calFloat && tlSection) {
+                var tlRect = tlSection.getBoundingClientRect();
+                if (tlRect.top < viewHeight * 0.6 && tlRect.bottom > viewHeight * 0.3) {
+                    calFloat.style.opacity = "1";
+                } else {
+                    calFloat.style.opacity = "0";
+                }
+            }
+
+            // Red reveal
+            var revealSection = document.getElementById("final-reveal");
+            var revealBg = document.getElementById("reveal-fill");
+            if (revealSection && revealBg) {
+                var revealRect = revealSection.getBoundingClientRect();
+                var startReveal = viewHeight;
+                var endReveal = viewHeight * 0.35;
+                var progress = (startReveal - revealRect.top) / (startReveal - endReveal);
+                progress = Math.min(1, Math.max(0, progress));
+                revealBg.style.transform = "translateX(" + ((progress - 1) * 100) + "%)";
+            }
+
+            // Calendar day highlight on scroll
+            var triggers = document.querySelectorAll('.js-timeline-trigger');
+            var dots = document.querySelectorAll('.cal-dot');
+            triggers.forEach(function(trigger) {
+                var rect = trigger.getBoundingClientRect();
+                if (rect.top < viewHeight * 0.6 && rect.bottom > viewHeight * 0.4) {
+                    var range = trigger.getAttribute('data-range').split(',').map(Number);
+                    dots.forEach(function(dot) {
+                        var day = parseInt(dot.getAttribute('data-day'));
+                        if (day >= range[0] && day <= range[1]) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        setTimeout(() => { scroller.update(); }, 1000);
+
+        // Scroll-reveal: add class to all content elements, use scroll event to trigger
+        (function() {
+            var selectors = [
+                'h2', 'h3',
+                '.body-text-standard',
+                '.quote-box',
+                '.editorial-box',
+                '.capsule-btn',
+                '[style*="padding:80px 100px"]',
+                '[style*="padding:160px 100px"]',
+                '.js-timeline-trigger',
+                '.tagline-body'
+            ];
+            var elements = [];
+            document.querySelectorAll(selectors.join(',')).forEach(function(el) {
+                if (!el.closest('nav') && !el.closest('#menu-overlay') && !el.closest('.hero-section') && !el.classList.contains('scroll-reveal')) {
+                    el.classList.add('scroll-reveal');
+                    elements.push(el);
+                }
+            });
+            // Also collect already-marked scroll-reveal elements
+            document.querySelectorAll('.scroll-reveal').forEach(function(el) {
+                if (elements.indexOf(el) === -1) elements.push(el);
+            });
+
+            function checkReveal() {
+                var vh = window.innerHeight;
+                elements.forEach(function(el) {
+                    if (el.classList.contains('is-visible')) return;
+                    var rect = el.getBoundingClientRect();
+                    if (rect.top < vh * 0.92) {
+                        el.classList.add('is-visible');
+                    }
+                });
+            }
+            scroller.on('scroll', checkReveal);
+            // Initial check for elements already in view
+            setTimeout(function() {
+                document.querySelectorAll('.scroll-reveal').forEach(function(el) {
+                    var rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight) {
+                        el.style.transition = 'none';
+                        el.classList.add('is-visible');
+                        requestAnimationFrame(function() {
+                            requestAnimationFrame(function() { el.style.transition = ''; });
+                        });
+                    }
+                });
+            }, 100);
+        })();
+    </script>
+    <script src="dodge-card.js"></script>
+</body>
+</html>

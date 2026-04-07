@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | 達摩媒體 Dotmore Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Noto+Sans+TC:wght@100;400;700;900&family=Space+Mono&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <style>
+        :root {
+            --deep-black: #0a0a0a;
+            --paper-white: #ffffff;
+            --impact-red: #f33036;
+            --editorial-gray: #888888;
+            --grid-line: rgba(255, 255, 255, 0.15);
+        }
+
+        html, body { margin: 0; padding: 0; }
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        body {
+            background-color: var(--deep-black);
+            color: var(--paper-white);
+            font-family: 'DM Sans', 'Noto Sans TC', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Nav */
+        .nav-contact-btn .btn-arrow { display:inline-block; max-width:0; opacity:0; overflow:hidden; transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1); transform:translateX(-12px); line-height:1; }
+        .nav-contact-btn:hover .btn-arrow { max-width:40px; opacity:1; transform:translateX(10px); margin-left:10px; margin-right:8px; }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        #menu-overlay.open { opacity: 1 !important; pointer-events: auto !important; }
+        .menu-link { position: relative; }
+        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f33036; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .menu-link:hover::before { transform: translateY(-50%) scale(1); }
+        .menu-link:hover { letter-spacing: 0.15em !important; }
+
+        /* 垂直延伸線 */
+        .v-line-extend {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: var(--grid-line);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Hero 標題區 */
+        .hero-section {
+            position: relative;
+            padding: 180px 0 100px;
+            border-bottom: 1px solid var(--grid-line);
+        }
+
+        .h1-mega {
+            font-size: clamp(60px, 10vw, 150px);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .brand-decorator {
+            position: absolute;
+            top: 150px;
+            right: 22%;
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-style: italic;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.02em;
+        }
+
+        /* 表單框架區域 */
+        .form-container {
+            position: relative;
+            padding: 100px 0;
+        }
+
+        .form-grid-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 60px;
+            row-gap: 50px;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            position: relative;
+            border-bottom: 1px solid var(--paper-white);
+            padding-bottom: 10px;
+        }
+
+        .input-label {
+            display: block;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 5px 0;
+        }
+        .form-input:focus { outline: none; }
+        .form-input::placeholder { color: rgba(255,255,255,0.2); }
+
+        /* 中間訊息與附件區域 */
+        .form-grid-mid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .message-box {
+            border: 1px solid var(--paper-white);
+            border-radius: 4px;
+            padding: 20px;
+            min-height: 220px;
+        }
+
+        .attach-box {
+            border: 1px solid var(--paper-white);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .attach-box:hover { background: rgba(255,255,255,0.05); }
+
+        .attach-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* 送出按鈕 */
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #f33036;
+            color: #fff;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 0 28px;
+            height: 52px;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.6s cubic-bezier(0.16,1,0.3,1);
+            overflow: hidden;
+        }
+        .submit-btn:hover { transform: scale(1.05); }
+        .submit-btn .btn-arrow {
+            display: inline-block;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.7s cubic-bezier(0.34,1.56,0.64,1);
+            transform: translateX(-12px);
+            line-height: 1;
+        }
+        .submit-btn:hover .btn-arrow {
+            max-width: 40px;
+            opacity: 1;
+            transform: translateX(10px);
+            margin-left: 10px;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 20px; }
+            .form-grid-top, .form-grid-mid { grid-template-columns: 1fr; }
+            .brand-decorator { display: none; }
+            .v-line-extend { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="sticky-nav" id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:100;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
+        <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
+        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f33036;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f33036;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+        </button>
+        </div>
+    </nav>
+
+    <div id="menu-overlay" style="position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.97);backdrop-filter:blur(30px);opacity:0;pointer-events:none;transition:opacity 0.5s ease;">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:28px;">
+            <a href="landing.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">首頁</a>
+            <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOL 網紅口碑</a>
+            <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOC 群眾口碑</a>
+            <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">論壇操作</a>
+            <a href="social-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
+            <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">精彩案例</a>
+            <a href="article-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
+            <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">聯絡我們</a>
+        </div>
+    </div>
+
+    <main style="position:relative;">
+        <!-- 垂直延伸線 -->
+        <div class="v-line-extend hidden lg:block" style="left: 10%;"></div>
+        <div class="v-line-extend hidden lg:block" style="right: 10%;"></div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="brand-decorator" style="display:inline-block;">
+                <span>&lt;Your Brand&gt; + Dot More</span>
+                <svg width="20" height="24" viewBox="0 0 20 24" fill="none" style="position:absolute;left:0;bottom:-22px;transform:rotate(5deg);">
+                    <path d="M10 0 C9 8, 8 16, 10 22" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                    <path d="M6 18 L10 22 L14 18" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1 class="h1-mega">
+                GET<br>IN<br>TOUCH
+            </h1>
+        </section>
+
+        <!-- Form Section -->
+        <section class="form-container max-w-5xl mx-auto px-6">
+            <form id="contact-form">
+                <!-- 頂部欄位 -->
+                <div class="form-grid-top">
+                    <div class="input-group">
+                        <label class="input-label">姓名*</label>
+                        <input type="text" required class="form-input">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">公司名稱*</label>
+                        <input type="text" required class="form-input">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">網站（選填）</label>
+                        <input type="url" class="form-input">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">預算*</label>
+                        <select required class="form-input" style="background-color:#0a0a0a;">
+                            <option value="" disabled selected></option>
+                            <option>5 萬以下</option>
+                            <option>5 萬 — 10 萬</option>
+                            <option>10 萬 — 30 萬</option>
+                            <option>30 萬以上</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">電子信箱*</label>
+                        <input type="email" required class="form-input">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">電話（選填）</label>
+                        <input type="tel" class="form-input">
+                    </div>
+                </div>
+
+                <!-- 中間區域 -->
+                <div class="form-grid-mid">
+                    <div class="message-box">
+                        <label class="input-label text-gray-500">訊息內容</label>
+                        <textarea class="w-full bg-transparent border-none focus:outline-none mt-2 h-32 resize-none" placeholder="請在這裡輸入您的訊息..."></textarea>
+                    </div>
+                    <div class="attach-box">
+                        <div class="mb-4">📎</div>
+                        <div class="attach-label">
+                            上傳<br>檔案<br>或簡報<br><br>
+                            <span class="text-[9px] opacity-60">（選填）</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 送出按鈕 -->
+                <div style="display:flex;justify-content:flex-end;">
+                    <button type="submit" class="submit-btn">
+                        <span>送出</span><span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer style="background:#060606;padding:80px 80px 40px;border-top:1px solid rgba(255,255,255,0.06);margin-top:80px;">
+        <div style="max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:40px;">
+                <div>
+                    <div style="font-size:28px;font-weight:900;margin-bottom:16px;">達摩媒體</div>
+                    <p style="font-size:14px;color:#888;line-height:1.6;margin-bottom:24px;">口碑，是最有價值的廣告</p>
+                    <div>
+                        <span style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;">10595 台北巿松山區南京東路4段126號11F之1</span>
+                        <a href="tel:+886225708111" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;text-decoration:none;transition:color 0.2s;">TEL. 02-2570-8111</a>
+                        <a href="mailto:service@dotmore.com.tw" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;">service@dotmore.com.tw</a>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">導覽</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
+                        <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
+                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">服務</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
+                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">社群</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Instagram</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Facebook</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Threads</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:rgba(255,255,255,0.25);">
+                <span>© 達摩媒體 2026 &nbsp;·&nbsp; 隱私權政策 &nbsp;·&nbsp; 服務條款</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.submit-btn');
+            btn.textContent = 'SENDING...';
+            btn.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                btn.textContent = 'SENT SUCCESSFULLY';
+                btn.style.background = '#4CAF50';
+                btn.style.color = 'white';
+                btn.style.opacity = '1';
+                this.reset();
+            }, 1500);
+        });
+    </script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+    </script>
+    <script>
+    (function(){
+        var hBtn = document.getElementById("hamburgerBtn");
+        var mOverlay = document.getElementById("menu-overlay");
+        if (hBtn && mOverlay) {
+            hBtn.addEventListener("click", function() {
+                hBtn.classList.toggle("open");
+                if (mOverlay.style.opacity === "0" || mOverlay.style.opacity === "") {
+                    mOverlay.style.opacity = "1";
+                    mOverlay.style.pointerEvents = "auto";
+                } else {
+                    mOverlay.style.opacity = "0";
+                    mOverlay.style.pointerEvents = "none";
+                }
+            });
+        }
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社群小編 | 達摩媒體 Dotmore Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <style>
+        html.has-scroll-smooth { overflow: hidden; }
+        .has-scroll-smooth body { overflow: hidden; }
+        :root {
+            --deep-black: #0a0a0a;
+            --pure-white: #ffffff;
+            --paper-white: #f5f2ee;
+            --impact-red: #f33036;
+            --editorial-gray: #888888;
+            --grid-line-white: rgba(255, 255, 255, 0.1);
+        }
+
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--deep-black); color: var(--paper-white); font-family: 'Noto Sans TC', sans-serif; margin: 0; overflow-x: hidden; }
+        .page-container { padding-left: 30px; padding-right: 30px; }
+        @media (min-width: 1024px) { .page-container { padding-left: 80px; padding-right: 80px; } }
+
+        /* Global Grid Lines */
+        .global-grid-lines { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+        .global-grid-lines .line { position: absolute; height: 100%; border-left: 1px solid var(--grid-line-white); }
+
+        /* Section Title */
+        .section-title { font-size: clamp(28px, 4.5vw, 56px); line-height: 1.2; font-weight: 500; letter-spacing: -0.01em; }
+
+        /* Capsule Button */
+        .capsule-btn {
+            background-color: var(--impact-red);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+            font-size: 13px; text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+        .capsule-btn.black { background-color: var(--deep-black); color: var(--impact-red); border: 1px solid rgba(255,255,255,0.1); }
+        .capsule-btn.black:hover { background-color: rgba(10,10,10,0.9); }
+        .btn-arrow {
+            display: inline-block;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateX(-12px);
+            line-height: 1;
+        }
+        .capsule-btn:hover .btn-arrow {
+            max-width: 40px;
+            opacity: 1;
+            transform: translateX(10px);
+            margin-left: 10px;
+            margin-right: 8px;
+        }
+
+        /* Editorial Box */
+        .editorial-flex-container { display: flex; flex-direction: column; width: 100%; }
+        @media (min-width: 768px) { .editorial-flex-container { flex-direction: row; } }
+        .editorial-box {
+            flex: 1;
+            transition: flex 1.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (min-width: 768px) { .editorial-box:hover { flex: 1.05; background-color: rgba(255, 255, 255, 0.02); } }
+
+        /* GSAP reveal animations */
+        .gs-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .gs-reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* Nav scroll */
+        .nav-scrolled { background-color: var(--deep-black) !important; border-bottom: 1px solid var(--grid-line-white); }
+
+        /* Footer */
+        .footer-link { color: #888888; transition: color 0.3s ease; text-decoration: none; }
+        .footer-link:hover { color: #ffffff; }
+
+        /* Workflow card stagger */
+        .workflow-card { position: relative; z-index: 10; transition: all 0.7s; }
+        .menu-link { position: relative; }
+        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f33036; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .menu-link:hover::before { transform: translateY(-50%) scale(1); }
+        .menu-link:hover { color: rgba(255,255,255,1) !important; letter-spacing: 0.15em !important; }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        #menu-overlay.open { opacity: 1 !important; pointer-events: auto !important; }
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .scroll-reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* Hero load-in animation */
+        @keyframes heroSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-anim { opacity: 0; animation: heroSlideUp 0.8s ease forwards; }
+
+    </style>
+</head>
+<body>
+
+    <!-- GLOBAL GRID LINES -->
+    <div class="global-grid-lines">
+        <div class="line" style="left: 20%;"></div>
+        <div class="line" style="left: 40%;"></div>
+        <div class="line" style="left: 60%;"></div>
+        <div class="line" style="left: 80%;"></div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="sticky-nav" id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:100;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
+        <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f33036;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+        </button>
+    </nav>
+
+    <!-- Menu Overlay -->
+    <div id="menu-overlay" style="position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.97);backdrop-filter:blur(30px);opacity:0;pointer-events:none;transition:opacity 0.5s ease;">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:28px;">
+            <a href="landing.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">首頁</a>
+            <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">KOL 網紅口碑</a>
+            <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">KOC 群眾口碑</a>
+            <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">論壇操作</a>
+            <a href="social-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">社群動能</a>
+            <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">精彩案例</a>
+            <a href="article-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">文章</a>
+            <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;">聯絡我們</a>
+        </div>
+    </div>
+
+
+    <div data-scroll-container>
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col justify-center pt-32 pb-20 relative z-10 text-white" style="padding-left:80px;padding-right:80px;">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-0 items-stretch relative">
+            <div class="lg:col-span-3 flex flex-col justify-center relative pb-20 pr-10">
+                <div class="relative mt-20">
+                    <div style="position:relative;display:inline-block;margin-bottom:8px;padding-left:4px;">
+                        <span style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;font-weight:400;color:rgba(255,255,255,0.6);letter-spacing:0.02em;">Social Media Management</span>
+                        <svg width="20" height="24" viewBox="0 0 20 24" fill="none" style="position:absolute;left:0;bottom:-22px;transform:rotate(5deg);">
+                            <path d="M10 0 C9 8, 8 16, 10 22" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                            <path d="M6 18 L10 22 L14 18" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1 class="hero-anim" style="font-size:clamp(32px,6vw,80px);line-height:1.15;font-weight:500;letter-spacing:-0.02em;margin-bottom:32px;animation-delay:0.15s;">社群動能<br>視覺與敘事的品牌定格</h1>
+                    <div class="max-w-xl mb-10 leading-relaxed hero-anim" style="animation-delay:0.35s;">
+                        <p class="mb-4 text-white font-normal text-[15px]">我們透過「創意策展 → 視覺溝通 → 社群擴散」的路徑，為品牌打造最具識別度的數位資產。</p>
+                    </div>
+                    <div class="hero-anim" style="animation-delay:0.5s;">
+                        <a href="#" class="capsule-btn">
+                            <span>專人諮詢</span><span class="btn-arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 flex flex-col justify-end items-end mt-20 lg:mt-0 relative hero-anim" style="animation-delay:0.4s;">
+                <div id="dodge-card" style="border:1.5px solid rgba(255,255,255,0.4);border-radius:20px;padding:24px;background:transparent;backdrop-filter:blur(5px);max-width:320px;margin-left:auto;box-shadow:0 0 20px rgba(255,255,255,0.05);margin-bottom:48px;transition:transform 0.3s ease;">
+                    <h2 class="text-lg font-bold leading-relaxed mb-0 text-white/90 text-center">
+                        "社群經營不只是發文，而是為品牌建立可辨識的數位人格。"
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY SECTION -->
+    <section class="relative z-20 bg-white text-[#0a0a0a] py-0 overflow-hidden" style="padding-left:0;padding-right:0;">
+        <div class="relative z-10" style="width:100%;">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 120px;margin-bottom:128px;">
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:rgba(0,0,0,0.5);margin:0 0 24px;line-height:1.9;">社群不是佈告欄，更不是日更打卡。<br>我們做的是內容的辨識度與擴散力：</p>
+                <h2 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:-0.01em;color:#0a0a0a;margin:0 0 24px;line-height:1.3;">用高完成度的視覺與敘事<br>把品牌核心濃縮成<br>「停留、互動、分享」的瞬間<br>並提供可投放、可再利用的素材系統</h2>
+                <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:500;color:rgba(0,0,0,0.5);margin:0;line-height:1.9;">讓每一次曝光都更有效。</p>
+            </div>
+
+            <!-- Workflow -->
+            <div class="relative mt-40">
+                <div class="text-center mb-32">
+                    <h3 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:0.02em;color:#0a0a0a;margin-bottom:16px;">社群動能執行<span class="weight-target" style="color:#f33036;">流程</span></h3>
+                    <p class="text-[#888888] text-[15px] font-normal">不含日常小編值班</p>
+                </div>
+                <!-- Landing-style staggered columns -->
+                <div style="position:relative;">
+                    <div style="position:absolute;left:20%;top:0;bottom:0;width:1px;background:#e0e0e0;pointer-events:none;"></div>
+                    <div style="position:absolute;left:40%;top:0;bottom:0;width:1px;background:#e0e0e0;pointer-events:none;"></div>
+                    <div style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:#e0e0e0;pointer-events:none;"></div>
+                    <div style="position:absolute;left:80%;top:0;bottom:0;width:1px;background:#e0e0e0;pointer-events:none;"></div>
+                    <div style="display:flex;align-items:flex-start;">
+                        <div style="flex:1;padding:80px 40px 140px;">
+                            <p style="font-family:'Space Mono',monospace;font-size:11px;color:#888;letter-spacing:0.1em;margin:0 0 24px;">01 / 05</p>
+                            <h3 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;line-height:1.3;margin:0 0 12px;">核心視覺定調</h3>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:600;color:#0a0a0a;line-height:1.5;margin:0 0 16px;">依品牌規範建立社群視覺語言</p>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#555;line-height:1.9;margin:0;">建立版型、色彩、字體、構圖、節奏，<br>讓每一張圖、每一支短影音<br>都具備極高的品牌辨識度。</p>
+                        </div>
+                        <div style="flex:1;padding:180px 40px 140px;">
+                            <p style="font-family:'Space Mono',monospace;font-size:11px;color:#888;letter-spacing:0.1em;margin:0 0 24px;">02 / 05</p>
+                            <h3 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;line-height:1.3;margin:0 0 12px;">內容鉤子設計</h3>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:600;color:#0a0a0a;line-height:1.5;margin:0 0 16px;">從受眾痛點規劃分享主題</p>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#555;line-height:1.9;margin:0;">從使用情境與話題切入，<br>必要時結合熱點但不硬蹭，<br>只選能替品牌加分的深度角度。</p>
+                        </div>
+                        <div style="flex:1;padding:80px 40px 140px;">
+                            <p style="font-family:'Space Mono',monospace;font-size:11px;color:#888;letter-spacing:0.1em;margin:0 0 24px;">03 / 05</p>
+                            <h3 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;line-height:1.3;margin:0 0 12px;">素材製作組合</h3>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:600;color:#0a0a0a;line-height:1.5;margin:0 0 16px;">產出用於 FB/IG 的內容套件</p>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#555;line-height:1.9;margin:0;">包含單圖、Carousel、Reels/短影音、<br>文案與 CTA，<br>讓品牌能直接上線或搭配精準投放。</p>
+                        </div>
+                        <div style="flex:1;padding:180px 40px 140px;">
+                            <p style="font-family:'Space Mono',monospace;font-size:11px;color:#888;letter-spacing:0.1em;margin:0 0 24px;">04 / 05</p>
+                            <h3 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;line-height:1.3;margin:0 0 12px;">成效數據迭代</h3>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:600;color:#0a0a0a;line-height:1.5;margin:0 0 16px;">以 A/B 測試優化版型文案</p>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#555;line-height:1.9;margin:0;">持續根據數據回饋優化鉤子，<br>讓素材越跑越準、越投越省力，<br>建立品牌專屬的成效循環。</p>
+                        </div>
+                        <div style="flex:1;padding:80px 40px 140px;">
+                            <p style="font-family:'Space Mono',monospace;font-size:11px;color:#888;letter-spacing:0.1em;margin:0 0 24px;">05 / 05</p>
+                            <h3 style="font-family:'Noto Sans TC',sans-serif;font-size:22px;font-weight:700;color:#0a0a0a;line-height:1.3;margin:0 0 12px;">素材規範交付</h3>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:600;color:#0a0a0a;line-height:1.5;margin:0 0 16px;">提供素材庫與上線建議</p>
+                            <p style="font-family:'Noto Sans TC',sans-serif;font-size:13px;color:#555;line-height:1.9;margin:0;">交付完整的素材庫與文案變體，<br>讓你內部團隊可以無縫接手執行，<br>不必依賴外部外包。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDITORIAL: USE CASES -->
+    <section class="relative z-10 bg-[#0a0a0a] border-t border-b border-white/10">
+        <div class="editorial-flex-container">
+            <!-- Empty spacer column (hidden on mobile) -->
+            <div class="editorial-box hidden md:flex" style="flex: 1;"></div>
+            <!-- Content column -->
+            <div class="editorial-box py-20 lg:py-32 px-8 lg:px-20" style="flex: 9;">
+                <div class="relative z-10">
+                    <div class="font-mono text-[12px] text-[#f33036] tracking-[0.2em] mb-6 uppercase gs-reveal">Use Cases</div>
+                    <h2 class="gs-reveal font-bold text-white leading-tight mb-16 tracking-tight max-w-3xl" style="font-size: clamp(32px, 4.5vw, 64px);">
+                        何時最該用社群動能
+                    </h2>
+                    <div class="flex flex-col gap-12">
+                        <!-- Item 1 -->
+                        <div class="gs-reveal flex flex-col gap-3">
+                            <div class="flex items-center gap-5">
+                                <div class="w-8 h-8 rounded-full bg-[#f33036] flex items-center justify-center shrink-0 shadow-lg">
+                                    <span class="text-white font-black text-[14px] leading-none">1</span>
+                                </div>
+                                <div class="text-[18px] md:text-[22px] text-white font-bold leading-tight tracking-tight">新品上市 / 檔期促銷</div>
+                            </div>
+                            <div class="text-[#888888] text-[15px] md:text-[16px] leading-[1.8] font-normal max-w-2xl ml-[52px]">需要快速做出一波好看的「內容戰役」，在短時間內累積大量品牌聲量。</div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="gs-reveal flex flex-col gap-3">
+                            <div class="flex items-center gap-5">
+                                <div class="w-8 h-8 rounded-full bg-[#f33036] flex items-center justify-center shrink-0 shadow-lg">
+                                    <span class="text-white font-black text-[14px] leading-none">2</span>
+                                </div>
+                                <div class="text-[18px] md:text-[22px] text-white font-bold leading-tight tracking-tight">品牌形象升級</div>
+                            </div>
+                            <div class="text-[#888888] text-[15px] md:text-[16px] leading-[1.8] font-normal max-w-2xl ml-[52px]">要讓版面看起來一致、變高級、被記住，建立符合品牌定位的視覺資產。</div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="gs-reveal flex flex-col gap-3">
+                            <div class="flex items-center gap-5">
+                                <div class="w-8 h-8 rounded-full bg-[#f33036] flex items-center justify-center shrink-0 shadow-lg">
+                                    <span class="text-white font-black text-[14px] leading-none">3</span>
+                                </div>
+                                <div class="text-[18px] md:text-[22px] text-white font-bold leading-tight tracking-tight">素材不足 / 投放效益卡住</div>
+                            </div>
+                            <div class="text-[#888888] text-[15px] md:text-[16px] leading-[1.8] font-normal max-w-2xl ml-[52px]">需要一套「可投放、可測試」的素材系統，優化廣告轉換率與受眾點擊。</div>
+                        </div>
+                        <!-- Item 4 -->
+                        <div class="gs-reveal flex flex-col gap-3">
+                            <div class="flex items-center gap-5">
+                                <div class="w-8 h-8 rounded-full bg-[#f33036] flex items-center justify-center shrink-0 shadow-lg">
+                                    <span class="text-white font-black text-[14px] leading-none">4</span>
+                                </div>
+                                <div class="text-[18px] md:text-[22px] text-white font-bold leading-tight tracking-tight">不只想要小編</div>
+                            </div>
+                            <div class="text-[#888888] text-[15px] md:text-[16px] leading-[1.8] font-normal max-w-2xl ml-[52px]">已經有日常客服回覆的服務，但想要長期內容策略。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RED REVEAL CTA -->
+    <section id="reveal-section" style="background-color:#0a0a0a;color:#fff;position:relative;z-index:30;min-height:60vh;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <div id="reveal-bg" style="position:absolute;top:0;left:0;height:100%;width:0;background-color:#f33036;transition:width 0.1s linear;z-index:1;"></div>
+        <div style="position:relative;z-index:10;width:100%;padding:0 80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:40px;">
+            <h2 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(24px,4.5vw,48px);font-weight:500;line-height:1.3;letter-spacing:-0.01em;margin:0;color:#fff;">讓您的品牌<br>在萬千滑動中定格</h2>
+            <a href="#" style="background:#0a0a0a;color:#fff;padding:14px 32px;font-size:13px;border-radius:100px;text-decoration:none;display:inline-flex;align-items:center;font-weight:700;text-transform:uppercase;transition:background 0.6s cubic-bezier(0.16,1,0.3,1);white-space:nowrap;" onmouseenter="this.style.background='#1a1a1a';this.querySelector('.btn-arrow').style.maxWidth='40px';this.querySelector('.btn-arrow').style.opacity='1';this.querySelector('.btn-arrow').style.transform='translateX(10px)';this.querySelector('.btn-arrow').style.marginLeft='10px';this.querySelector('.btn-arrow').style.marginRight='8px';" onmouseleave="this.style.background='#0a0a0a';this.querySelector('.btn-arrow').style.maxWidth='0';this.querySelector('.btn-arrow').style.opacity='0';this.querySelector('.btn-arrow').style.transform='translateX(-12px)';this.querySelector('.btn-arrow').style.marginLeft='0';this.querySelector('.btn-arrow').style.marginRight='0';">
+                <span>立即聯繫達摩</span>
+                <span class="btn-arrow" style="display:inline-block;max-width:0;opacity:0;overflow:hidden;transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1);transform:translateX(-12px);line-height:1;">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="background:#060606;padding:80px 80px 40px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:40px;">
+                <div>
+                    <div style="font-size:28px;font-weight:900;margin-bottom:16px;">達摩媒體</div>
+                    <p style="font-size:14px;color:#888;line-height:1.6;margin-bottom:24px;">口碑，是最有價值的廣告</p>
+                    <div>
+                        <span style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;">10595 台北巿松山區南京東路4段126號11F之1</span>
+                        <a href="tel:+886225708111" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;text-decoration:none;transition:color 0.2s;">TEL. 02-2570-8111</a>
+                        <a href="mailto:service@dotmore.com.tw" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;">service@dotmore.com.tw</a>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">導覽</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
+                        <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
+                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">服務</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
+                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">社群</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Instagram</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Facebook</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Threads</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:rgba(255,255,255,0.25);">
+                <span>© 達摩媒體 2026 &nbsp;·&nbsp; 隱私權政策 &nbsp;·&nbsp; 服務條款</span>
+            </div>
+        </div>
+    </footer>
+    </div><!-- end scroll-container -->
+
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <!-- GSAP Animations -->
+    <script>
+        // Init Locomotive Scroll
+        const scroller = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            multiplier: 1.1,
+            lerp: 0.08
+        });
+
+        scroller.on('scroll', (instance) => {
+            const viewHeight = window.innerHeight;
+
+            // Dynamic font weight
+            document.querySelectorAll('.weight-target').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                let progress = 1 - (rect.top / (viewHeight * 0.9));
+                progress = Math.max(0, Math.min(1.1, progress));
+                el.style.fontWeight = Math.floor(100 + (progress * 800));
+            });
+
+            // Red reveal
+            const revealSection = document.getElementById('reveal-section');
+            const revealBg = document.getElementById('reveal-bg');
+            if (revealSection && revealBg) {
+                const rect = revealSection.getBoundingClientRect();
+                let progress = (viewHeight - rect.top) / (viewHeight - viewHeight * 0.35);
+                progress = Math.min(1, Math.max(0, progress));
+                revealBg.style.width = (progress * 100) + '%';
+            }
+        });
+
+        setTimeout(() => { scroller.update(); }, 1000);
+
+        // Scroll-reveal using Locomotive scroll event
+        (function() {
+            var selectors = ['h1','h2','h3','h4','p','.capsule-btn','.gs-reveal','footer .footer-link'];
+            var elements = [];
+            document.querySelectorAll(selectors.join(',')).forEach(function(el) {
+                if (!el.closest('nav') && !el.closest('#menu-overlay') && !el.closest('.hero-section')) {
+                    if (!el.classList.contains('scroll-reveal') && !el.classList.contains('gs-reveal')) {
+                        el.classList.add('scroll-reveal');
+                    }
+                    elements.push(el);
+                }
+            });
+            // Also collect existing gs-reveal elements
+            document.querySelectorAll('.gs-reveal').forEach(function(el) {
+                if (elements.indexOf(el) === -1) elements.push(el);
+            });
+
+            function checkReveal() {
+                var vh = window.innerHeight;
+                elements.forEach(function(el) {
+                    if (el.classList.contains('is-visible')) return;
+                    var rect = el.getBoundingClientRect();
+                    if (rect.top < vh * 0.92) {
+                        el.classList.add('is-visible');
+                    }
+                });
+            }
+            scroller.on('scroll', checkReveal);
+            // Show elements already in view on load
+            setTimeout(function() {
+                elements.forEach(function(el) {
+                    var rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight) {
+                        el.style.transition = 'none';
+                        el.classList.add('is-visible');
+                        requestAnimationFrame(function() {
+                            requestAnimationFrame(function() { el.style.transition = ''; });
+                        });
+                    }
+                });
+            }, 100);
+        })();
+    </script>
+<script>
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const menuOverlay = document.getElementById("menu-overlay");
+hamburgerBtn.addEventListener("click", () => {
+    hamburgerBtn.classList.toggle("open");
+    menuOverlay.classList.toggle("open");
+});
+</script>
+<script src="dodge-card.js"></script>
+</body>
+</html>
