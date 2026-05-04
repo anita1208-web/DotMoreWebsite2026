@@ -1,18 +1,37 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>精彩案例 | 達摩媒體 Dotmore Media</title>
+    <title>精彩案例 Cases｜達摩媒體 Dot More Media</title>
+    <link rel="icon" type="image/png" href="favicon/favicon.png">
+    <meta name="description" content="看達摩媒體如何為不同產業品牌操盤社群行銷與口碑擴散。精選實績案例，展現我們在創意、策略與執行面的完整能量。">
+    <meta name="author" content="達摩媒體 Dot More Media">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dotmoremedia.com.tw/cases.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="達摩媒體 Dot More Media">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:title" content="精彩案例 Cases｜達摩媒體 Dot More Media">
+    <meta property="og:description" content="看達摩媒體如何為不同產業品牌操盤社群行銷與口碑擴散。精選實績案例，展現我們在創意、策略與執行面的完整能量。">
+    <meta property="og:url" content="https://dotmoremedia.com.tw/cases.html">
+    <meta property="og:image" content="https://dotmoremedia.com.tw/og/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="精彩案例 Cases｜達摩媒體 Dot More Media">
+    <meta name="twitter:description" content="看達摩媒體如何為不同產業品牌操盤社群行銷與口碑擴散。精選實績案例，展現我們在創意、策略與執行面的完整能量。">
+    <meta name="twitter:image" content="https://dotmoremedia.com.tw/og/og-image.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;400;700;900&family=DM+Sans:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
         :root {
             --deep-black: #0a0a0a;
             --paper-white: #f5f2ee;
-            --impact-red: #f33036;
+            --impact-red: #f03232;
             --editorial-gray: #888888;
         }
 
@@ -136,7 +155,9 @@
             position: absolute;
             top: 30px;
             left: 30px;
+            right: 30px;
             display: flex;
+            flex-wrap: wrap;
             gap: 8px;
             z-index: 10;
             opacity: 0;
@@ -187,10 +208,10 @@
             letter-spacing: -0.02em;
         }
         .stat-label {
-            font-size: 10px;
-            color: var(--editorial-gray);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--paper-white);
+            letter-spacing: -0.01em;
             line-height: 1.4;
         }
 
@@ -205,13 +226,16 @@
             display: inline-flex;
             animation: marquee 60s linear infinite;
         }
+        .marquee-content.reverse {
+            animation: marquee 60s linear infinite reverse;
+        }
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
         .logo-box {
-            width: 180px;
-            height: 80px;
+            width: 200px;
+            height: 95px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             margin: 0 8px;
             display: flex;
@@ -223,9 +247,31 @@
         .logo-box:hover {
             border-color: var(--impact-red);
         }
+        .tagline-chars .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .tagline-chars.in-view .char {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .logo-box img[data-big] {
+            max-width: 95% !important;
+            max-height: 85% !important;
+        }
+        .logo-box img[data-medium] {
+            max-width: 75% !important;
+            max-height: 63% !important;
+        }
+        .logo-box img[data-small] {
+            max-width: 38% !important;
+            max-height: 32% !important;
+        }
         .logo-box img {
-            max-width: 50%;
-            max-height: 35%;
+            max-width: 55%;
+            max-height: 42%;
             filter: grayscale(100%) brightness(0.8);
             opacity: 0.5;
             transition: 0.5s;
@@ -340,7 +386,7 @@
             color: white;
         }
         .menu-link:hover { color: rgba(255,255,255,1) !important; letter-spacing: 0.15em !important; }
-        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f33036; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f03232; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .menu-link:hover::before { transform: translateY(-50%) scale(1); }
         .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
         .hamburger-btn.open span:nth-child(2) { opacity: 0; }
@@ -356,7 +402,7 @@
 
     <nav class="sticky-nav" id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:100;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
         <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
-        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f33036;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f33036;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
+        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f03232;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f03232;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
             <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
             <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
             <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
@@ -369,11 +415,11 @@
             <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOL 網紅口碑</a>
             <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOC 群眾口碑</a>
             <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">論壇操作</a>
-            <a href="social-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
+            <a href="social.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
             <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">精彩案例</a>
-            <a href="article-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
+            <a href="article.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
             <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">聯絡我們</a>
-        <a href="#" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">INLY 影領</a>
+        <a href="https://inly.com.tw/" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;" target="_blank" rel="noopener">INLY 影領</a>
         </div>
     </div>
 
@@ -395,24 +441,20 @@
         <section class="mb-20 px-20" style="overflow:hidden;margin-top:120px;">
             <div class="flex justify-between items-start gap-10 py-24">
                 <div class="stat-item">
-                    <div class="stat-number"><span class="counter" data-target="2">0</span>X</div>
-                    <div class="stat-label">AVERAGE YEAR<br>OVER YEAR GROWTH</div>
+                    <div class="stat-number"><span class="counter" data-target="7000">0</span>+</div>
+                    <div class="stat-label">品牌客戶</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number"><span class="counter" data-target="6">0</span></div>
-                    <div class="stat-label">CLIENT<br>EXITS</div>
+                    <div class="stat-number"><span class="counter" data-target="20000">0</span>+</div>
+                    <div class="stat-label">案件經驗</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number"><span class="counter" data-target="200">0</span>+</div>
-                    <div class="stat-label">CLIENTS WE've<br>HELPED SCALE</div>
+                    <div class="stat-number"><span class="counter" data-target="100000">0</span>+</div>
+                    <div class="stat-label">口碑會員</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number"><span class="counter" data-target="10">0</span>+</div>
-                    <div class="stat-label">YEARS SCALING<br>AMBITIOUS BUSINESSES</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number"><span class="counter" data-target="0">0</span></div>
-                    <div class="stat-label">YAWNS IN THE<br>BOARDROOM</div>
+                    <div class="stat-number"><span class="counter" data-target="2000">0</span>+</div>
+                    <div class="stat-label">鄉民賬號</div>
                 </div>
             </div>
         </section>
@@ -421,23 +463,108 @@
         <section class="mb-48">
             <div class="marquee-container">
                 <div class="marquee-content">
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/nike/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/adidas/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/apple/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/sony/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/samsung/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/toyota/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/cocacola/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/starbucks/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Nike.svg" alt="Nike" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Addidas.png" alt="Adidas" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Beats.png" alt="Beats"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/CathyUnitedBank.png" alt="Cathay United Bank" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Dior.png" alt="Dior" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/EsteeLauder.svg" alt="Estée Lauder" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/GiorgioArmani.png" alt="Giorgio Armani" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Glenlivet.png" alt="Glenlivet" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Heineken.png" alt="Heineken" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Innisfree.png" alt="Innisfree" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-medium="1" src="cases/logo%20marquee/JoMalone.png" alt="Jo Malone" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/LOreal.png" alt="L'Oréal" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Lancome.png" alt="Lancôme" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pxmart-bw.png" alt="全聯福利中心"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Brands.png" alt="白蘭氏" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Momo.png" alt="Momo" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/JPPlus.png" alt="JP Plus" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/PnG.png" alt="P&G" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Unilever.png" alt="Unilever" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/YSL.png" alt="YSL" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/laneige.png" alt="Laneige" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/lianHua.png" alt="聯華" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pizzaHut.png" alt="Pizza Hut" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/toyota.png" alt="Toyota" style="filter:brightness(0) invert(1);"></div>
                     <!-- Loop -->
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/nike/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/adidas/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/apple/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/sony/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/samsung/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/toyota/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/cocacola/f5f2ee" alt=""></div>
-                    <div class="logo-box"><img src="https://cdn.simpleicons.org/starbucks/f5f2ee" alt=""></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Nike.svg" alt="Nike" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Addidas.png" alt="Adidas" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Beats.png" alt="Beats"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/CathyUnitedBank.png" alt="Cathay United Bank" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Dior.png" alt="Dior" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/EsteeLauder.svg" alt="Estée Lauder" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/GiorgioArmani.png" alt="Giorgio Armani" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Glenlivet.png" alt="Glenlivet" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Heineken.png" alt="Heineken" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Innisfree.png" alt="Innisfree" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-medium="1" src="cases/logo%20marquee/JoMalone.png" alt="Jo Malone" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/LOreal.png" alt="L'Oréal" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Lancome.png" alt="Lancôme" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pxmart-bw.png" alt="全聯福利中心"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Brands.png" alt="白蘭氏" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Momo.png" alt="Momo" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/JPPlus.png" alt="JP Plus" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/PnG.png" alt="P&G" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Unilever.png" alt="Unilever" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/YSL.png" alt="YSL" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/laneige.png" alt="Laneige" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/lianHua.png" alt="聯華" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pizzaHut.png" alt="Pizza Hut" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/toyota.png" alt="Toyota" style="filter:brightness(0) invert(1);"></div>
+                </div>
+            </div>
+            <div class="marquee-container" style="margin-top:16px;">
+                <div class="marquee-content reverse">
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Nike.svg" alt="Nike" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Addidas.png" alt="Adidas" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Beats.png" alt="Beats"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/CathyUnitedBank.png" alt="Cathay United Bank" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Dior.png" alt="Dior" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/EsteeLauder.svg" alt="Estée Lauder" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/GiorgioArmani.png" alt="Giorgio Armani" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Glenlivet.png" alt="Glenlivet" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Heineken.png" alt="Heineken" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Innisfree.png" alt="Innisfree" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-medium="1" src="cases/logo%20marquee/JoMalone.png" alt="Jo Malone" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/LOreal.png" alt="L'Oréal" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Lancome.png" alt="Lancôme" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pxmart-bw.png" alt="全聯福利中心"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Brands.png" alt="白蘭氏" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Momo.png" alt="Momo" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/JPPlus.png" alt="JP Plus" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/PnG.png" alt="P&G" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Unilever.png" alt="Unilever" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/YSL.png" alt="YSL" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/laneige.png" alt="Laneige" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/lianHua.png" alt="聯華" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pizzaHut.png" alt="Pizza Hut" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/toyota.png" alt="Toyota" style="filter:brightness(0) invert(1);"></div>
+                    <!-- Loop -->
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Nike.svg" alt="Nike" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Addidas.png" alt="Adidas" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Beats.png" alt="Beats"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/CathyUnitedBank.png" alt="Cathay United Bank" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Dior.png" alt="Dior" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/EsteeLauder.svg" alt="Estée Lauder" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/GiorgioArmani.png" alt="Giorgio Armani" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Glenlivet.png" alt="Glenlivet" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Heineken.png" alt="Heineken" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Innisfree.png" alt="Innisfree" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-medium="1" src="cases/logo%20marquee/JoMalone.png" alt="Jo Malone" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/LOreal.png" alt="L'Oréal" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Lancome.png" alt="Lancôme" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pxmart-bw.png" alt="全聯福利中心"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/Brands.png" alt="白蘭氏" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-small="1" src="cases/logo%20marquee/Momo.png" alt="Momo" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/JPPlus.png" alt="JP Plus" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img data-big="1" src="cases/logo%20marquee/PnG.png" alt="P&G" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/Unilever.png" alt="Unilever" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/YSL.png" alt="YSL" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/laneige.png" alt="Laneige" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/lianHua.png" alt="聯華" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/pizzaHut.png" alt="Pizza Hut" style="filter:brightness(0) invert(1);"></div>
+                    <div class="logo-box"><img src="cases/logo%20marquee/toyota.png" alt="Toyota" style="filter:brightness(0) invert(1);"></div>
                 </div>
             </div>
         </section>
@@ -446,34 +573,36 @@
         <section class="mb-3">
             <div class="case-container">
                 <!-- Case 06 (newest): 爭鮮gogo -->
-                <a href="cases-detail6-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                <a href="cases-detail6.html" class="case-card" style="text-decoration:none;color:inherit;">
                     <img src="cases/06-sushiexpress-gogo/images/hero.jpg" alt="爭鮮gogo">
                     <div class="case-overlay"></div>
                     <div class="case-tags">
                         <span class="tag">KOL 網紅口碑</span>
                         <span class="tag">Podcast 宣傳</span>
                         <span class="tag">IG 限時動態</span>
+                        <span class="tag">總下載次數 190K</span>
                     </div>
                     <div class="case-info">
                         <h3 class="text-xl font-bold tracking-tight">爭鮮gogo：Podcast 口碑爆發</h3>
                     </div>
                 </a>
-                <!-- Case 05: Dyson -->
-                <a href="cases-detail5-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
-                    <img src="cases/05/images/hero.jpg" alt="Dyson">
+                <!-- Case 05: La Mer 奇幻實驗室 -->
+                <a href="cases-detail5.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/05-la-mer/images/hero.jfif" alt="La Mer 奇幻實驗室">
                     <div class="case-overlay"></div>
                     <div class="case-tags">
-                        <span class="tag">KOC 群眾口碑</span>
-                        <span class="tag">IG Reels</span>
-                        <span class="tag">分享數 12k+</span>
+                        <span class="tag">KOL 網紅口碑</span>
+                        <span class="tag">15 位微網紅</span>
+                        <span class="tag">達到銷售目標</span>
+                        <span class="tag">Instagram</span>
                     </div>
                     <div class="case-info">
-                        <h3 class="text-xl font-bold tracking-tight">Dyson：吸塵器生活流實測</h3>
+                        <h3 class="text-xl font-bold tracking-tight">La Mer 奇幻實驗室</h3>
                     </div>
                 </a>
                 <!-- Case 04: Nike -->
-                <a href="cases-detail4-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
-                    <img src="cases/04/images/hero.jpg" alt="Nike">
+                <a href="cases-detail4.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/04-wang-steak/images/hero.jfif" alt="Nike">
                     <div class="case-overlay"></div>
                     <div class="case-tags">
                         <span class="tag">KOL 網紅口碑</span>
@@ -490,21 +619,22 @@
         <!-- 4. Case Showcase - Row 2 -->
         <section class="mb-60">
             <div class="case-container">
-                <!-- Case 03: IKEA -->
-                <a href="cases-detail3-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
-                    <img src="cases/03/images/hero.jpg" alt="IKEA">
+                <!-- Case 03: 雅詩蘭黛 粉持久 -->
+                <a href="cases-detail3.html" class="case-card" style="text-decoration:none;color:inherit;">
+                    <img src="cases/03-estee-lauder-double-wear/images/hero.jpg" alt="雅詩蘭黛 粉持久">
                     <div class="case-overlay"></div>
                     <div class="case-tags">
-                        <span class="tag">口碑論壇</span>
-                        <span class="tag">Dcard</span>
-                        <span class="tag">互動率 8.5%</span>
+                        <span class="tag">KOL 網紅口碑</span>
+                        <span class="tag">YouTube</span>
+                        <span class="tag">Facebook</span>
+                        <span class="tag">Instagram</span>
                     </div>
                     <div class="case-info">
-                        <h3 class="text-xl font-bold tracking-tight">IKEA：KOC 軟裝提案</h3>
+                        <h3 class="text-xl font-bold tracking-tight">雅詩蘭黛 粉持久</h3>
                     </div>
                 </a>
                 <!-- Case 02: ASUS -->
-                <a href="cases-detail2-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                <a href="cases-detail2.html" class="case-card" style="text-decoration:none;color:inherit;">
                     <img src="cases/02/images/hero.jpg" alt="ASUS">
                     <div class="case-overlay"></div>
                     <div class="case-tags">
@@ -517,7 +647,7 @@
                     </div>
                 </a>
                 <!-- Case 01 (oldest): Apple -->
-                <a href="cases-detail1-converted.html" class="case-card" style="text-decoration:none;color:inherit;">
+                <a href="cases-detail1.html" class="case-card" style="text-decoration:none;color:inherit;">
                     <img src="cases/01/images/hero.jpg" alt="Apple">
                     <div class="case-overlay"></div>
                     <div class="case-tags">
@@ -535,10 +665,9 @@
         <!-- 5. Quote Section -->
         <section class="mb-60">
             <div class="max-w-4xl mx-auto text-center px-10">
-                <p class="text-2xl md:text-3xl font-light leading-relaxed mb-12 text-white/90">
-                    真正的廣告不在於製作一則廣告，<br>而在於讓媒體討論你的品牌而達成廣告。
+                <p id="kotler-quote" class="text-white tagline-chars" style="font-size:clamp(24px,3.5vw,48px);font-weight:700;line-height:1.4;letter-spacing:-0.01em;margin-bottom:2rem;word-break:keep-all;overflow:hidden;">
+                    真正的廣告不在於製作一則廣告<br>而在於讓媒體討論你的品牌而達成廣告
                 </p>
-                <div class="w-12 h-[1px] bg-red-600 mx-auto mb-8"></div>
                 <h4 class="text-lg font-bold tracking-widest text-white">Philip Kotler</h4>
                 <p class="text-xs text-[#888] tracking-widest mt-2 uppercase">現代行銷學之父</p>
             </div>
@@ -564,7 +693,7 @@
                     <ul style="list-style:none;padding:0;margin:0;">
                         <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
                         <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
-                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="article.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
                         <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
                     </ul>
                 </div>
@@ -574,8 +703,8 @@
                         <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
                         <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
                         <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
-                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
-                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                        <li style="margin-bottom:10px;"><a href="social.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="https://inly.com.tw/" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;" target="_blank" rel="noopener">INLY 影領</a></li>
                     </ul>
                 </div>
                 <div>
@@ -620,17 +749,18 @@
                 start: "top 90%",
                 once: true,
                 onEnter: () => {
-                    let count = 0;
-                    const duration = 4000; 
+                    const startVal = Math.max(0, target - 500);
+                    const duration = 1500;
                     const startTime = performance.now();
+                    counter.innerText = startVal;
                     function updateCount(currentTime) {
                         const elapsed = currentTime - startTime;
                         const progress = Math.min(elapsed / duration, 1);
                         const easeProgress = progress * (2 - progress);
-                        const currentCount = Math.floor(easeProgress * target);
-                        counter.innerText = currentCount;
+                        const currentCount = Math.floor(startVal + easeProgress * (target - startVal));
+                        counter.innerText = currentCount.toLocaleString('en-US');
                         if (progress < 1) requestAnimationFrame(updateCount);
-                        else counter.innerText = target;
+                        else counter.innerText = target.toLocaleString('en-US');
                     }
                     requestAnimationFrame(updateCount);
                 }
@@ -667,6 +797,50 @@ hamburgerBtn.addEventListener("click", () => {
     hamburgerBtn.classList.toggle("open");
     menuOverlay.classList.toggle("open");
 });
+</script>
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+</script>
+<script>
+(function(){
+    var el = document.getElementById('kotler-quote');
+    if (!el) return;
+    var html = el.innerHTML;
+    var result = '';
+    var charIndex = 0;
+    for (var i = 0; i < html.length; i++) {
+        if (html.substr(i,4).toLowerCase() === '<br>' || html.substr(i,5).toLowerCase() === '<br/>') {
+            var end = html.indexOf('>', i);
+            result += html.substring(i, end+1);
+            i = end;
+        } else if (html[i] === '<') {
+            var end = html.indexOf('>', i);
+            result += html.substring(i, end+1);
+            i = end;
+        } else if (html[i].trim() === '') {
+            result += html[i];
+        } else {
+            var delay = (charIndex * 0.04).toFixed(2);
+            result += '<span class="char" style="transition-delay:' + delay + 's">' + html[i] + '</span>';
+            charIndex++;
+        }
+    }
+    el.innerHTML = result;
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if (e.isIntersecting) { el.classList.add('in-view'); io.unobserve(el); }
+        });
+    }, { threshold: 0.3 });
+    io.observe(el);
+})();
 </script>
 </body>
 </html>

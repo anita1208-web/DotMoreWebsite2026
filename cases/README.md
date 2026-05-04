@@ -22,5 +22,5 @@ cases/
 1. 在 `cases/` 下建立新資料夾，格式：`編號-案例名稱/`
 2. 建立 `content.md`，填寫 frontmatter（title, client, scope, hero_image）
 3. 把圖片放進 `images/` 資料夾
-4. 複製 `cases-detail1-converted.html` 為新檔案（如 `cases-detail2-converted.html`），替換內容
+4. 複製 `cases-detail1.html` 為新檔案（如 `cases-detail2.html`），替換內容
 5. 在 `cases.html` 列表頁新增連結

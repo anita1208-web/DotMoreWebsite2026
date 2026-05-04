@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章 | 達摩媒體 Dotmore Media</title>
+    <title>品牌文章 Articles｜達摩媒體 Dot More Media</title>
+    <link rel="icon" type="image/png" href="favicon/favicon.png">
+    <meta name="description" content="達摩媒體分享最新社群行銷、網紅合作、品牌策略觀點與產業趨勢，幫助品牌掌握社群世代的關鍵脈動。">
+    <meta name="author" content="達摩媒體 Dot More Media">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dotmoremedia.com.tw/article.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="達摩媒體 Dot More Media">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:title" content="品牌文章 Articles｜達摩媒體 Dot More Media">
+    <meta property="og:description" content="達摩媒體分享最新社群行銷、網紅合作、品牌策略觀點與產業趨勢，幫助品牌掌握社群世代的關鍵脈動。">
+    <meta property="og:url" content="https://dotmoremedia.com.tw/article.html">
+    <meta property="og:image" content="https://dotmoremedia.com.tw/og/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="品牌文章 Articles｜達摩媒體 Dot More Media">
+    <meta name="twitter:description" content="達摩媒體分享最新社群行銷、網紅合作、品牌策略觀點與產業趨勢，幫助品牌掌握社群世代的關鍵脈動。">
+    <meta name="twitter:image" content="https://dotmoremedia.com.tw/og/og-image.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +33,7 @@
         :root {
             --deep-black: #0a0a0a;
             --pure-white: #ffffff;
-            --impact-red: #f33036;
+            --impact-red: #f03232;
             --editorial-gray: #555555;
             --grid-line: rgba(0, 0, 0, 0.1);
         }
@@ -76,7 +92,7 @@
         @keyframes artLetterUp { 0% { opacity:0; transform:translateY(100%); } 100% { opacity:1; transform:translateY(0); } }
         .menu-link:hover { color: rgba(255,255,255,1) !important; letter-spacing: 0.15em !important; }
         .menu-link { position: relative; }
-        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f33036; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f03232; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .menu-link:hover::before { transform: translateY(-50%) scale(1); }
         .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
         .hamburger-btn.open span:nth-child(2) { opacity: 0; }
@@ -90,7 +106,7 @@
     <!-- NAVIGATION -->
     <nav class="sticky-nav" id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:100;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
         <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
-        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f33036;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f33036;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
+        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f03232;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f03232;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
             <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
             <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
             <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
@@ -103,11 +119,11 @@
             <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOL 網紅口碑</a>
             <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOC 群眾口碑</a>
             <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">論壇操作</a>
-            <a href="social-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
+            <a href="social.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
             <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">精彩案例</a>
-            <a href="article-converted.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
+            <a href="article.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
             <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">聯絡我們</a>
-        <a href="#" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">INLY 影領</a>
+        <a href="https://inly.com.tw/" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;" target="_blank" rel="noopener">INLY 影領</a>
         </div>
     </div>
 
@@ -154,7 +170,7 @@
             <!-- Row 1: Large Articles (newest first) -->
             <div class="flex flex-col md:flex-row w-full border-b border-black/10" style="min-height:350px;">
                 <!-- Article 06 (newest) — 脆行銷有效的原因 -->
-                <a href="article-detail6-converted.html" class="editorial-box group cursor-pointer p-8 md:p-12 md:border-r border-black/10 gs-reveal" data-category="行銷洞察" style="text-decoration:none;color:inherit;">
+                <a href="article-detail6.html" class="editorial-box group cursor-pointer p-8 md:p-12 md:border-r border-black/10 gs-reveal" data-category="行銷洞察" style="text-decoration:none;color:inherit;">
                     <div class="flex justify-between items-center font-mono text-[10px] tracking-widest mb-6 uppercase">
                         <span class="opacity-40">8 MINUTES</span>
                         <div class="px-3 py-1 rounded-full text-[9px] font-bold tracking-widest uppercase border border-black text-black">行銷洞察</div>
@@ -165,7 +181,7 @@
                     <h3 class="text-xl md:text-2xl font-bold tracking-tight group-hover:underline underline-offset-8 leading-tight">脆行銷有效的原因跟你想的不一樣</h3>
                 </a>
                 <!-- Article 05 — 達摩媒體榮獲 -->
-                <a href="article-detail5-converted.html" class="editorial-box group cursor-pointer p-8 md:p-12 gs-reveal" data-category="媒體新聞" style="text-decoration:none;color:inherit;">
+                <a href="article-detail5.html" class="editorial-box group cursor-pointer p-8 md:p-12 gs-reveal" data-category="媒體新聞" style="text-decoration:none;color:inherit;">
                     <div class="flex justify-between items-center font-mono text-[10px] tracking-widest mb-6 uppercase">
                         <span class="opacity-40">6 MINUTES</span>
                         <div class="px-3 py-1 rounded-full text-[9px] font-bold tracking-widest uppercase border border-black text-black">媒體新聞</div>
@@ -180,7 +196,7 @@
             <!-- Row 2: Small Articles -->
             <div class="flex flex-col md:flex-row w-full border-b border-black/10" style="min-height:350px;">
                 <!-- Article 04 — ADWEEK -->
-                <a href="article-detail4-converted.html" class="editorial-box group cursor-pointer p-8 md:border-r border-black/10 gs-reveal" data-category="媒體新聞" style="text-decoration:none;color:inherit;">
+                <a href="article-detail4.html" class="editorial-box group cursor-pointer p-8 md:border-r border-black/10 gs-reveal" data-category="媒體新聞" style="text-decoration:none;color:inherit;">
                     <div class="flex justify-between items-center font-mono text-[10px] tracking-widest mb-4 uppercase">
                         <span class="opacity-40">6 MINUTES</span>
                         <div class="px-3 py-1 rounded-full text-[9px] font-bold tracking-widest uppercase border border-black text-black">媒體新聞</div>
@@ -197,7 +213,7 @@
                     <h3 class="text-sm font-bold tracking-tight leading-snug group-hover:underline underline-offset-4">ADWEEK：2024 全球行銷趨勢報告</h3>
                 </a>
                 <!-- Article 03 — 零基礎入門 -->
-                <a href="article-detail3-converted.html" class="editorial-box group cursor-pointer p-8 md:border-r border-black/10 gs-reveal" data-category="行銷課程" style="text-decoration:none;color:inherit;">
+                <a href="article-detail3.html" class="editorial-box group cursor-pointer p-8 md:border-r border-black/10 gs-reveal" data-category="行銷課程" style="text-decoration:none;color:inherit;">
                     <div class="flex justify-between items-center font-mono text-[10px] tracking-widest mb-4 uppercase">
                         <span class="opacity-40">6 MINUTES</span>
                         <div class="px-3 py-1 rounded-full text-[9px] font-bold tracking-widest uppercase border border-black text-black">行銷課程</div>
@@ -208,7 +224,7 @@
                     <h3 class="text-sm font-bold tracking-tight leading-snug group-hover:underline underline-offset-4">零基礎入門：行銷數據分析第一課</h3>
                 </a>
                 <!-- Article 02 — 內容行銷的靈魂 -->
-                <a href="article-detail2-converted.html" class="editorial-box group cursor-pointer p-8 md:border-r border-black/10 gs-reveal" data-category="行銷洞察" style="text-decoration:none;color:inherit;">
+                <a href="article-detail2.html" class="editorial-box group cursor-pointer p-8 md:border-r border-black/10 gs-reveal" data-category="行銷洞察" style="text-decoration:none;color:inherit;">
                     <div class="flex justify-between items-center font-mono text-[10px] tracking-widest mb-4 uppercase">
                         <span class="opacity-40">5 MINUTES</span>
                         <div class="px-3 py-1 rounded-full text-[9px] font-bold tracking-widest uppercase border border-black text-black">行銷洞察</div>
@@ -219,7 +235,7 @@
                     <h3 class="text-sm font-bold tracking-tight leading-snug group-hover:underline underline-offset-4">內容行銷的靈魂：如何說出打動人心的故事</h3>
                 </a>
                 <!-- Article 01 (oldest) — 品牌策略深度解析 -->
-                <a href="article-detail1-converted.html" class="editorial-box group cursor-pointer p-8 gs-reveal" data-category="行銷洞察" style="text-decoration:none;color:inherit;">
+                <a href="article-detail1.html" class="editorial-box group cursor-pointer p-8 gs-reveal" data-category="行銷洞察" style="text-decoration:none;color:inherit;">
                     <div class="flex justify-between items-center font-mono text-[10px] tracking-widest mb-4 uppercase">
                         <span class="opacity-40">5 MINUTES</span>
                         <div class="px-3 py-1 rounded-full text-[9px] font-bold tracking-widest uppercase border border-black text-black">行銷洞察</div>
@@ -257,7 +273,7 @@
                     <ul style="list-style:none;padding:0;margin:0;">
                         <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">首頁</a></li>
                         <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
-                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="article.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">文章</a></li>
                         <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
                     </ul>
                 </div>
@@ -267,8 +283,8 @@
                         <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
                         <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
                         <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
-                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
-                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                        <li style="margin-bottom:10px;"><a href="social.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="https://inly.com.tw/" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;" target="_blank" rel="noopener">INLY 影領</a></li>
                     </ul>
                 </div>
                 <div>

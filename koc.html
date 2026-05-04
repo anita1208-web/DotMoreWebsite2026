@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOC 群眾口碑 | Dotmore Media</title>
+    <title>KOC 群眾口碑 KOC｜達摩媒體 Dot More Media</title>
+    <link rel="icon" type="image/png" href="favicon/favicon.png">
+    <meta name="description" content="達摩媒體以 KOC 真實體驗擴散品牌口碑，透過素人分享建立消費者信任，引爆社群聲量並帶動實際購買行動。">
+    <meta name="author" content="達摩媒體 Dot More Media">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dotmoremedia.com.tw/koc.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="達摩媒體 Dot More Media">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:title" content="KOC 群眾口碑 KOC｜達摩媒體 Dot More Media">
+    <meta property="og:description" content="達摩媒體以 KOC 真實體驗擴散品牌口碑，透過素人分享建立消費者信任，引爆社群聲量並帶動實際購買行動。">
+    <meta property="og:url" content="https://dotmoremedia.com.tw/koc.html">
+    <meta property="og:image" content="https://dotmoremedia.com.tw/og/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KOC 群眾口碑 KOC｜達摩媒體 Dot More Media">
+    <meta name="twitter:description" content="達摩媒體以 KOC 真實體驗擴散品牌口碑，透過素人分享建立消費者信任，引爆社群聲量並帶動實際購買行動。">
+    <meta name="twitter:image" content="https://dotmoremedia.com.tw/og/og-image.png">
     <!-- 統一導入 Noto Sans TC -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
     <!-- Locomotive Scroll CSS -->
@@ -14,7 +30,7 @@
             --deep-black: #0a0a0a;
             --pure-white: #FFFFFF;
             --paper-white: #f5f2ee;
-            --impact-red: #f33036;
+            --impact-red: #f03232;
             --editorial-gray: #888888;
             --grid-line-white: rgba(255, 255, 255, 0.08);
             --grid-line-black: rgba(0, 0, 0, 0.05);
@@ -50,7 +66,7 @@
             position: relative;
             z-index: 10;
         }
-        .capsule-btn:hover { background-color: #d6282d; }
+        .capsule-btn:hover { background-color: #d72d2d; }
 
         /* 黑色膠囊按鈕變體 (用於紅色背景) */
         .capsule-btn-black {
@@ -87,7 +103,7 @@
         }
         @media (max-width: 768px) { nav.sticky-nav { padding: 20px 20px; } }
         .hamburger-btn {
-            width: 48px; height: 48px; background: #f33036; border: none; border-radius: 50%;
+            width: 48px; height: 48px; background: #f03232; border: none; border-radius: 50%;
             cursor: pointer; display: flex; flex-direction: column; align-items: center;
             justify-content: center; gap: 6px; padding: 0; z-index: 200; transition: transform 0.3s ease;
         }
@@ -112,7 +128,7 @@
         }
         .menu-link::before {
             content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 8px;
-            background: #f33036; border-radius: 50%; transform: translateY(-50%) scale(0);
+            background: #f03232; border-radius: 50%; transform: translateY(-50%) scale(0);
             transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
         }
         .menu-link:hover { color: rgba(255,255,255,1); transform: scale(1.15); letter-spacing: 0.12em; }
@@ -252,11 +268,11 @@
             <a href="influencer.html" class="menu-link">KOL 網紅口碑</a>
             <a href="koc.html" class="menu-link">KOC 群眾口碑</a>
             <a href="forum.html" class="menu-link">論壇操作</a>
-            <a href="social-converted.html" class="menu-link">社群動能</a>
+            <a href="social.html" class="menu-link">社群動能</a>
             <a href="cases.html" class="menu-link">精彩案例</a>
-            <a href="article-converted.html" class="menu-link">文章</a>
+            <a href="article.html" class="menu-link">文章</a>
             <a href="contact.html" class="menu-link">聯絡我們</a>
-        <a href="#" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;">INLY 影領</a>
+        <a href="https://inly.com.tw/" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;" target="_blank" rel="noopener">INLY 影領</a>
         </div>
     </div>
 
@@ -324,8 +340,9 @@
                         <div class="koc-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,0);opacity:0;transition:all 600ms ease;display:flex;align-items:center;justify-content:center;z-index:15;">
                             <div class="koc-case-btn" style="border:1.5px solid rgba(255,255,255,0.85);border-radius:40px;padding:18px 44px;cursor:pointer;background:transparent;transition:all 0.6s cubic-bezier(0.2,1,0.2,1);opacity:0;transform:translateY(20px);"
                                 onmouseenter="this.style.background='rgba(255,255,255,0.15)'"
-                                onmouseleave="this.style.background='transparent'">
-                                <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#fff;letter-spacing:0.18em;white-space:nowrap;">精彩案例</span>
+                                onmouseleave="this.style.background='transparent'"
+                                onclick="window.location.href='contact.html'">
+                                <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#fff;letter-spacing:0.18em;white-space:nowrap;">立即聯繫達摩</span>
                             </div>
                         </div>
                     </div>
@@ -351,8 +368,9 @@
                         <div class="koc-overlay2" style="position:absolute;inset:0;background:rgba(0,0,0,0);opacity:0;transition:all 600ms ease;display:flex;align-items:center;justify-content:center;z-index:15;">
                             <div class="koc-case-btn2" style="border:1.5px solid rgba(255,255,255,0.85);border-radius:40px;padding:18px 44px;cursor:pointer;background:transparent;transition:all 0.6s cubic-bezier(0.2,1,0.2,1);opacity:0;transform:translateY(20px);"
                                 onmouseenter="this.style.background='rgba(255,255,255,0.15)'"
-                                onmouseleave="this.style.background='transparent'">
-                                <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#fff;letter-spacing:0.18em;white-space:nowrap;">精彩案例</span>
+                                onmouseleave="this.style.background='transparent'"
+                                onclick="window.location.href='contact.html'">
+                                <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(16px,1.4vw,22px);font-weight:500;color:#fff;letter-spacing:0.18em;white-space:nowrap;">立即聯繫達摩</span>
                             </div>
                         </div>
                     </div>
@@ -421,7 +439,7 @@
                 <div style="margin:0 auto; padding:0 40px;">
                     <!-- Title -->
                     <h2 class="scroll-reveal" data-scroll data-scroll-class="is-visible" data-scroll-offset="10%" style="text-align:center; font-family:'Noto Sans TC',sans-serif; font-size:clamp(28px,4.5vw,56px); font-weight:500; letter-spacing:0.02em; margin-bottom:72px; color:#ffffff;">
-                        口碑推文操作<span class="weight-target" style="color:#f33036;">流程</span>
+                        口碑推文操作<span class="weight-target" style="color:#f03232;">流程</span>
                     </h2>
                     <!-- 3-column flex grid -->
                     <div style="display:flex; position:relative; gap:0; min-height:500px;" class="koc-process-grid">
@@ -457,7 +475,7 @@
             <!-- Timeline Section -->
             <section class="white-section w-full relative border-t border-black/5 pb-64" data-scroll-section id="timeline-section">
                 <div style="padding:120px 80px 40px;text-align:center;">
-                    <h3 class="scroll-reveal" data-scroll data-scroll-class="is-visible" data-scroll-offset="10%" style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:0.02em;color:#0a0a0a;margin:0;">專案佈局<span class="weight-target" style="color:#f33036;">時程</span></h3>
+                    <h3 class="scroll-reveal" data-scroll data-scroll-class="is-visible" data-scroll-offset="10%" style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(28px,4.5vw,56px);font-weight:500;letter-spacing:0.02em;color:#0a0a0a;margin:0;">專案佈局<span class="weight-target" style="color:#f03232;">時程</span></h3>
                 </div>
                 <div style="position:relative;">
                     <div style="width:100%;">
@@ -518,7 +536,7 @@
                     <ul style="list-style:none;padding:0;margin:0;">
                         <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
                         <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
-                        <li style="margin-bottom:10px;"><a href="article-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="article.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
                         <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
                     </ul>
                 </div>
@@ -528,8 +546,8 @@
                         <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
                         <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
                         <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
-                        <li style="margin-bottom:10px;"><a href="social-converted.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
-                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">INLY 影領</a></li>
+                        <li style="margin-bottom:10px;"><a href="social.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="https://inly.com.tw/" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;" target="_blank" rel="noopener">INLY 影領</a></li>
                     </ul>
                 </div>
                 <div>

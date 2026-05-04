@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Mer 奇幻實驗室 案例 Case｜達摩媒體 Dot More Media</title>
+    <link rel="icon" type="image/png" href="favicon/favicon.png">
+    <meta name="description" content="達摩媒體為 La Mer 奇幻實驗室打造的微網紅口碑行銷案例，透過 15 位微網紅打造網美必去打卡點，成功帶動單日銷售業績。">
+    <meta name="author" content="達摩媒體 Dot More Media">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dotmoremedia.com.tw/cases-detail5.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="達摩媒體 Dot More Media">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:title" content="La Mer 奇幻實驗室 案例 Case｜達摩媒體 Dot More Media">
+    <meta property="og:description" content="達摩媒體為 La Mer 奇幻實驗室打造的微網紅口碑行銷案例，透過 15 位微網紅打造網美必去打卡點，成功帶動單日銷售業績。">
+    <meta property="og:url" content="https://dotmoremedia.com.tw/cases-detail5.html">
+    <meta property="og:image" content="https://dotmoremedia.com.tw/og/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Mer 奇幻實驗室 案例 Case｜達摩媒體 Dot More Media">
+    <meta name="twitter:description" content="達摩媒體為 La Mer 奇幻實驗室打造的微網紅口碑行銷案例，透過 15 位微網紅打造網美必去打卡點，成功帶動單日銷售業績。">
+    <meta name="twitter:image" content="https://dotmoremedia.com.tw/og/og-image.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <style>
+        :root {
+            --deep-black: #0a0a0a;
+            --paper-white: #f5f2ee;
+            --impact-red: #f03232;
+            --editorial-gray: #888888;
+        }
+
+        html, body { margin: 0; padding: 0; }
+        body { background-color: var(--deep-black); color: var(--paper-white); font-family: 'Noto Sans TC', sans-serif; overflow-x: hidden; }
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+        /* Nav */
+        .nav-scrolled { padding-top: 24px; padding-bottom: 24px; background-color: transparent; }
+        .nav-default { padding-top: 40px; padding-bottom: 40px; background-color: transparent; }
+        .nav-subtitle { transition: opacity 0.5s ease, max-height 0.5s ease; overflow: hidden; }
+
+        /* Gallery image hover */
+        .gallery-img { transition: transform 0.7s ease, opacity 0.5s ease; opacity: 0.6; }
+        .group:hover .gallery-img { transform: scale(1.1); opacity: 1; }
+
+        /* GSAP reveal */
+        .gs-reveal { opacity: 0; transform: translateY(40px); }
+
+        /* Parallax hero */
+        .hero-bg { transition: transform 0.1s linear; }
+
+        /* Footer link */
+        .footer-link { transition: color 0.3s ease; }
+        .footer-link:hover { color: #f03232; }
+
+        /* Full-screen menu overlay */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 55;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(30px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .menu-overlay.open { opacity: 1; pointer-events: all; }
+        .menu-overlay a { display: block; font-size: clamp(32px, 5vw, 60px); font-weight: 700; color: white; text-decoration: none; transition: color 0.3s; }
+        .menu-overlay a:hover { color: var(--impact-red); }
+        .nav-contact-btn .btn-arrow { display:inline-block; max-width:0; opacity:0; overflow:hidden; transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1); transform:translateX(-12px); line-height:1; } .nav-contact-btn:hover .btn-arrow { max-width:40px; opacity:1; transform:translateX(10px); margin-left:10px; margin-right:8px; }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        #menu-overlay.open { opacity: 1 !important; pointer-events: auto !important; }
+        .menu-link { position: relative; }
+        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f03232; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .menu-link:hover::before { transform: translateY(-50%) scale(1); }
+        .menu-link:hover { letter-spacing: 0.15em !important; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="sticky-nav" id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:100;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
+        <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
+        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f03232;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f03232;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+        </button>
+        </div>
+    </nav>
+
+    <!-- FULL SCREEN MENU -->
+    <div id="menu-overlay" style="position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.97);backdrop-filter:blur(30px);opacity:0;pointer-events:none;transition:opacity 0.5s ease;">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:28px;">
+            <a href="landing.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">首頁</a>
+            <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOL 網紅口碑</a>
+            <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOC 群眾口碑</a>
+            <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">論壇操作</a>
+            <a href="social.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
+            <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">精彩案例</a>
+            <a href="article.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
+            <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">聯絡我們</a>
+        <a href="https://inly.com.tw/" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;" target="_blank" rel="noopener">INLY 影領</a>
+        </div>
+    </div>
+
+    <!-- 1. HERO - Full Screen Image -->
+    <section class="relative w-full overflow-hidden border-b border-white/5" style="height:100vh;">
+        <img src="cases/05-la-mer/images/hero.jfif" alt="La Mer 奇幻實驗室" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
+        <div style="position:absolute;bottom:48px;left:80px;">
+            <div class="px-8 py-3 border border-white/40 rounded-full backdrop-blur-sm bg-black/10">
+                <span class="text-white text-lg font-medium tracking-[0.1em]">La Mer 奇幻實驗室</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. PROBLEM -->
+    <section class="py-32 px-12 md:px-[80px] border-b border-white/5">
+        <div class="max-w-7xl">
+            <h3 class="gs-reveal text-5xl md:text-6xl font-bold mb-12">Problem</h3>
+            <div class="gs-reveal max-w-2xl text-zinc-400 text-lg leading-relaxed space-y-6">
+                <p>品牌方此次同時背負品牌聲量與銷售轉化的雙重壓力。大型 KOL 的高預算合作難以回應分眾時代的溝通需求，單一代言聲量也無法支撐後續的信任累積。</p>
+                <p>品牌需要的，是一套能在特定受眾中「被真實推薦、被自然討論」的口碑操作，讓訊息以生活化的語境滲透進社群，並轉化為可被衡量的銷售成果。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SCOPE & SOLUTION -->
+    <section class="border-b border-white/5">
+        <div class="flex flex-col md:flex-row">
+            <!-- Scope -->
+            <div class="w-full md:w-1/4 py-32 px-12 md:px-[80px] md:pr-12 border-b md:border-b-0 md:border-r border-white/5 space-y-10">
+                <div class="gs-reveal inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5">
+                    <span class="text-[11px] font-bold uppercase tracking-[0.15em]">Scope</span>
+                </div>
+                <ul class="gs-reveal space-y-4 text-sm font-bold">
+                    <li class="text-zinc-400 hover:text-white transition-colors cursor-default">KOL 網紅口碑</li>
+                    <li class="text-zinc-400 hover:text-white transition-colors cursor-default">達到銷售目標</li>
+                    <li class="text-zinc-400 hover:text-white transition-colors cursor-default">15 位微網紅</li>
+                    <li class="text-zinc-400 hover:text-white transition-colors cursor-default">Instagram</li>
+                    <li class="text-zinc-400 hover:text-white transition-colors cursor-default">走期 5 天</li>
+                </ul>
+            </div>
+            <!-- Solution -->
+            <div class="w-full md:w-3/4 py-32 px-12 md:pl-20">
+                <h3 class="gs-reveal text-5xl md:text-6xl font-bold mb-12">Solution</h3>
+                <div class="gs-reveal max-w-3xl space-y-12">
+                    <div class="text-zinc-400 text-lg leading-relaxed space-y-6">
+                        <p>邀約 15 位微網紅參加 La Mer 奇幻實驗室，並刻意安排不同時間點出席活動，在現場拍照打卡上傳至 IG。</p>
+                        <p>讓社群在活動期間不斷露出品牌相關貼文，創造出「網美必去的打卡點」，成功帶動人潮前往，達到單日銷售業績。</p>
+                    </div>
+                    <div class="pt-4">
+                        <a href="#" class="inline-flex items-center gap-2 text-white font-bold text-lg transition-colors group">
+                            Visit La Mer Here
+                            <svg class="group-hover:translate-x-1 transition-transform" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. CAMPAIGN GALLERY -->
+    <section class="py-32 border-b border-white/5 bg-zinc-950/30">
+        <div class="px-[30px] md:px-[80px]">
+            <div class="gs-reveal flex justify-between items-end mb-16">
+                <h3 class="text-4xl md:text-5xl font-bold">執行亮點</h3>
+            </div>
+        </div>
+        <div class="px-[30px] md:px-[80px]">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Image 1 -->
+                <div class="gs-reveal group relative aspect-[3/4] overflow-hidden bg-zinc-900 rounded-sm">
+                    <img src="cases/05-la-mer/images/gallery-01.jpg" alt="La Mer 奇幻實驗室現場" class="gallery-img w-full h-full object-cover">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                        <p class="text-xl font-bold">La Mer 奇幻實驗室</p>
+                    </div>
+                </div>
+                <!-- Image 2 -->
+                <div class="gs-reveal group relative aspect-[3/4] overflow-hidden bg-zinc-900 rounded-sm">
+                    <img src="cases/05-la-mer/images/gallery-02.jpg" alt="微網紅打卡分享" class="gallery-img w-full h-full object-cover">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                        <p class="text-xl font-bold">La Mer 奇幻實驗室</p>
+                    </div>
+                </div>
+                <!-- Image 3 -->
+                <div class="gs-reveal group relative aspect-[3/4] overflow-hidden bg-zinc-900 rounded-sm md:col-span-2 lg:col-span-1">
+                    <img src="cases/05-la-mer/images/gallery-03.jpg" alt="IG 社群擴散" class="gallery-img w-full h-full object-cover">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                        <p class="text-xl font-bold">La Mer 奇幻實驗室</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. NEXT CASE STUDY -->
+    <a id="next-case-link" href="cases-detail6.html" style="text-decoration:none;color:inherit;display:block;">
+    <section class="group relative h-[45vh] w-full overflow-hidden cursor-pointer border-b border-white/5">
+        <div id="next-case-bg" class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105 opacity-30 group-hover:opacity-50" style="background-image:url('cases/06-sushiexpress-gogo/images/hero.jpg');">
+        </div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center space-y-6 z-10 px-6 text-center">
+            <h4 class="text-4xl md:text-5xl font-bold tracking-tight transition-colors group-hover:text-red-500">查看下一個案例</h4>
+            <div class="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-red-500 group-hover:border-red-500 group-hover:text-white transition-all duration-300">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+        </div>
+    </section>
+    </a>
+
+    <!-- 6. FOOTER -->
+    <footer style="background:#060606;padding:80px 80px 40px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:40px;">
+                <div>
+                    <div style="font-size:28px;font-weight:900;margin-bottom:16px;">達摩媒體</div>
+                    <p style="font-size:14px;color:#888;line-height:1.6;margin-bottom:24px;">口碑，是最有價值的廣告</p>
+                    <div>
+                        <span style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;">10595 台北巿松山區南京東路4段126號11F之1</span>
+                        <a href="tel:+886225708111" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:6px;text-decoration:none;transition:color 0.2s;">TEL. 02-2570-8111</a>
+                        <a href="mailto:service@dotmore.com.tw" style="display:block;font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;">service@dotmore.com.tw</a>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">導覽</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">首頁</a></li>
+                        <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
+                        <li style="margin-bottom:10px;"><a href="article.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">服務</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
+                        <li style="margin-bottom:10px;"><a href="social.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="https://inly.com.tw/" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;" target="_blank" rel="noopener">INLY 影領</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">社群</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Instagram</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Facebook</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;">Threads</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:rgba(255,255,255,0.25);">
+                <span>© 達摩媒體 2026 &nbsp;·&nbsp; 隱私權政策 &nbsp;·&nbsp; 服務條款</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Lenis smooth scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+
+        // Menu toggle
+        (function(){
+            var hBtn = document.getElementById("hamburgerBtn");
+            var mOverlay = document.getElementById("menu-overlay");
+            if (hBtn && mOverlay) {
+                hBtn.addEventListener("click", function() {
+                    hBtn.classList.toggle("open");
+                    if (mOverlay.style.opacity === "0" || mOverlay.style.opacity === "") {
+                        mOverlay.style.opacity = "1";
+                        mOverlay.style.pointerEvents = "auto";
+                    } else {
+                        mOverlay.style.opacity = "0";
+                        mOverlay.style.pointerEvents = "none";
+                    }
+                });
+            }
+        })();
+
+        // GSAP reveal
+        document.querySelectorAll('.gs-reveal').forEach(el => {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'power4.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+    </script>
+</body>
+</html>

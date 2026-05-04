@@ -19,4 +19,4 @@ articles/
 1. 在 `articles/` 下建立新資料夾，格式：`編號-文章標題/`
 2. 建立 `content.md`，填寫 frontmatter（title, date, author, reading_time, hero_image）
 3. 把圖片放進 `images/` 資料夾
-4. 複製 `article-detail1-converted.html` 作為模板，替換內容
+4. 複製 `article-detail1.html` 作為模板，替換內容

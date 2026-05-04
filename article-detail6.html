@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品牌策略觀點 Article｜達摩媒體 Dot More Media</title>
+    <link rel="icon" type="image/png" href="favicon/favicon.png">
+    <meta name="description" content="達摩媒體團隊觀點文章，深入解析品牌策略與社群行銷的實戰經驗，為品牌經營者提供可落地的思考框架。">
+    <meta name="author" content="達摩媒體 Dot More Media">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dotmoremedia.com.tw/article-detail6.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="達摩媒體 Dot More Media">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:title" content="品牌策略觀點 Article｜達摩媒體 Dot More Media">
+    <meta property="og:description" content="達摩媒體團隊觀點文章，深入解析品牌策略與社群行銷的實戰經驗，為品牌經營者提供可落地的思考框架。">
+    <meta property="og:url" content="https://dotmoremedia.com.tw/article-detail6.html">
+    <meta property="og:image" content="https://dotmoremedia.com.tw/og/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="品牌策略觀點 Article｜達摩媒體 Dot More Media">
+    <meta name="twitter:description" content="達摩媒體團隊觀點文章，深入解析品牌策略與社群行銷的實戰經驗，為品牌經營者提供可落地的思考框架。">
+    <meta name="twitter:image" content="https://dotmoremedia.com.tw/og/og-image.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <style>
+        :root {
+            --deep-black: #0a0a0a;
+            --paper-white: #f5f2ee;
+            --impact-red: #f03232;
+            --editorial-gray: #888888;
+            --grid-line: rgba(0, 0, 0, 0.1);
+        }
+
+        html, body { margin: 0; padding: 0; }
+        body { background-color: #ffffff; color: #0a0a0a; font-family: 'Noto Sans TC', sans-serif; overflow-x: hidden; }
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+        /* Grid lines */
+        .global-grid-lines { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+        .global-grid-lines .line { position: absolute; height: 100%; width: 1px; background-color: var(--grid-line); }
+
+        /* Nav - no blend mode */
+
+        /* Menu overlay */
+        .menu-overlay {
+            position: fixed; inset: 0; z-index: 60;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-color: rgba(0,0,0,0.9); backdrop-filter: blur(20px);
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        .menu-overlay.open { opacity: 1; pointer-events: all; }
+        .menu-overlay li { font-size: 32px; font-weight: 500; color: white; cursor: pointer; transition: color 0.3s; }
+        .menu-overlay li:hover { color: var(--impact-red); }
+
+        /* Variable weight heading */
+        #variable-heading { transition: font-weight 0.15s ease-out; }
+
+        /* Hero image hover */
+        .hero-img { transition: transform 1s ease; }
+        .hero-img-wrapper:hover .hero-img { transform: scale(1.05); }
+
+        /* Grayscale image */
+        .gs-img { filter: grayscale(100%); transition: filter 0.7s ease; }
+        .gs-img:hover { filter: grayscale(0%); }
+
+        /* Tag hover */
+        .article-tag { transition: all 0.3s ease; }
+        .article-tag:hover { background-color: white; color: black; }
+
+        /* GSAP reveal */
+        .gs-reveal { opacity: 0; transform: translateY(40px); }
+
+        /* Share icons */
+        .share-icon { cursor: pointer; transition: color 0.3s; }
+        .share-icon:hover { color: var(--impact-red); }
+
+        /* Prev/Next nav */
+        .prev-next-link { text-decoration: none; color: #0a0a0a; transition: color 0.3s ease; }
+        .prev-next-link:hover { color: var(--impact-red); }
+        .prev-next-link svg { transition: transform 0.3s ease; }
+        .prev-next-link:hover svg { stroke: var(--impact-red); }
+        .prev-next-link:first-child:hover svg { transform: translateX(-4px); }
+        .prev-next-link:last-child:hover svg { transform: translateX(4px); }
+        .nav-contact-btn .btn-arrow { display:inline-block; max-width:0; opacity:0; overflow:hidden; transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1); transform:translateX(-12px); line-height:1; } .nav-contact-btn:hover .btn-arrow { max-width:40px; opacity:1; transform:translateX(10px); margin-left:10px; margin-right:8px; }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        #menu-overlay.open { opacity: 1 !important; pointer-events: auto !important; }
+        .menu-link { position: relative; }
+        .menu-link::before { content: ""; position: absolute; left: -24px; top: 50%; transform: translateY(-50%) scale(0); width: 8px; height: 8px; border-radius: 50%; background: #f03232; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .menu-link:hover::before { transform: translateY(-50%) scale(1); }
+        .menu-link:hover { letter-spacing: 0.15em !important; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION (outside scroll container for fixed positioning) -->
+    <nav class="sticky-nav" id="main-nav" style="position:fixed;top:0;left:0;width:100%;z-index:100;padding:32px 80px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:all 0.5s ease;">
+        <a href="landing.html"><img src="2026 達摩 logo +svg-03.svg" alt="Dotmore Media" style="height:45px; width:auto; display:block;"></a>
+        <div style="display:flex;align-items:center;gap:16px;"><a href="contact.html" class="nav-contact-btn" style="display:inline-flex;align-items:center;background:#f03232;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:700;padding:0 28px;height:52px;border-radius:100px;text-decoration:none;text-transform:uppercase;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);overflow:hidden;"><span>聯絡我們</span><span class="btn-arrow">→</span></a><button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" style="width:52px;height:52px;background:#f03232;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;z-index:200;transition:transform 0.3s ease;">
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+            <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);"></span>
+        </button>
+        </div>
+    </nav>
+
+    <div id="menu-overlay" style="position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.97);backdrop-filter:blur(30px);opacity:0;pointer-events:none;transition:opacity 0.5s ease;">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:28px;">
+            <a href="landing.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">首頁</a>
+            <a href="influencer.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOL 網紅口碑</a>
+            <a href="koc.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">KOC 群眾口碑</a>
+            <a href="forum.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">論壇操作</a>
+            <a href="social.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">社群動能</a>
+            <a href="cases.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">精彩案例</a>
+            <a href="article.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">文章</a>
+            <a href="contact.html" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.4s ease;letter-spacing:0.08em;text-transform:uppercase;position:relative;">聯絡我們</a>
+        <a href="https://inly.com.tw/" class="menu-link" style="font-size:18px;font-weight:400;color:rgba(255,255,255,1);text-decoration:none;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.08em;text-transform:uppercase;" target="_blank" rel="noopener">INLY 影領</a>
+        </div>
+    </div>
+
+    <!-- GRID LINES -->
+    <!-- grid lines removed -->
+
+    <!-- ARTICLE HERO -->
+    <header class="relative pt-[160px] pb-12 px-[30px] md:px-[80px] z-10">
+        <div class="flex flex-col items-center text-center">
+            <h1 style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(32px,5.5vw,84px);line-height:1.15;letter-spacing:-0.03em;font-weight:500;margin:0 0 32px;">
+                脆行銷有效的原因<br>跟你想的不一樣
+            </h1>
+            <div style="display:flex;align-items:center;gap:16px;font-size:13px;color:rgba(0,0,0,0.5);">
+                <span style="font-family:'Noto Sans TC',sans-serif;font-size:13px;">03/30/2026</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="2026 達摩 logo +svg-03.svg" alt="達摩媒體" style="width:18px;height:auto;filter:brightness(0) invert(1);"></div>
+                    <span style="font-family:'Noto Sans TC',sans-serif;">Written by <span style="color:#f03232;">達摩媒體</span></span>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:24px;margin-top:20px;color:rgba(0,0,0,0.4);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span style="font-family:'Noto Sans TC',sans-serif;font-size:13px;">閱讀 8 分鐘</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO IMAGE -->
+    <section class="relative w-full h-[60vh] md:h-[80vh] overflow-hidden px-[30px] md:px-[80px]">
+        <div class="w-full h-full relative overflow-hidden hero-img-wrapper">
+            <img src="articles/06/images/hero.jpg" alt="Hero" class="hero-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/20"></div>
+        </div>
+    </section>
+
+    <!-- ARTICLE BODY -->
+    <main class="relative z-10 py-24 px-[30px] md:px-[80px] flex justify-center">
+        <!-- Main content -->
+        <article class="w-full max-w-[720px]">
+            <div class="space-y-12 text-lg leading-relaxed">
+                <p class="gs-reveal text-2xl md:text-3xl font-light italic" style="font-family: 'Noto Sans TC', sans-serif; color: var(--impact-red);">
+                    <span style="font-family: 'Playfair Display', serif; font-size: 1.4em; line-height: 0;">&ldquo;</span>搞懂脆行銷真正有效的原因<br>才能在對的時間點做對的決定<span style="font-family: 'Playfair Display', serif; font-size: 1.4em; line-height: 0;">&rdquo;</span>
+                </p>
+
+                <p class="gs-reveal">
+                    為什麼脆上一則留言，可以悄悄改變一個產品賣給誰？因為脆的環境讓每一則留言看起來都像是隨口說的。不管背後有沒有人在策劃，在這個平台上，話說出來的樣子就是輕的、沒有包裝的、不像在推銷的。而這種感覺，剛好是最容易讓人放下戒心、然後去搜尋那個產品的時刻。
+                </p>
+
+                <h3 id="variable-heading" class="gs-reveal text-[28px] font-bold pt-8">脆爲什麽容易影響別人的購買決定？</h3>
+
+                <p class="gs-reveal">
+                    脆上最容易讓人掏錢的，不是廣告，是那種你完全感覺不到有人在試圖說服你的時刻。
+                </p>
+                <p class="gs-reveal">
+                    為什麼脆特別容易製造這種感覺？三個原因。
+                </p>
+                <p class="gs-reveal">
+                    在 IG 上發文，你多少會想一下，這則放上去，別人怎麼看我、適合我的版面嗎、適合我的形象嗎？所以你會篩選，會整理，會選一個最好的角度。脆不一樣。發完就發完，不會停在你的版面上變成你的一部分。沒有要建立什麼，所以說話的人看起來沒有目的。
+                </p>
+                <p class="gs-reveal">
+                    脆的演算法偏愛「討論」這件事，不是讓人靜靜點個愛心的文。你覺得「這好美」會按讚，但你覺得「對！我買過踩雷」、「這在哪裡買」會留言。兩個看起來都是反應，但脆比較推第二種。所以在脆上傳得開的，天然就是有情緒、有立場的那種話。而那種話，剛好都是跟買東西最直接相關的反應。
+                </p>
+                <p class="gs-reveal">
+                    商家推薦你會想背後目的。陌生人在脆上隨口說「這個真的好用」，你反而覺得，他跟我沒關係，他幹嘛騙我？脆的演算法又剛好會把這句話推給對這個話題有感的陌生人。一圈傳一圈，傳到的都是本來就有點想買的人。
+                </p>
+
+                <h3 class="gs-reveal text-[28px] font-bold pt-8">問題來了，傳到的是誰？</h3>
+                <p class="gs-reveal">
+                    你設計產品的時候，心裡大概有一個人。這個人有某種生活方式、某種預算、某種買東西的理由。你的文案是對他說的，你的包裝是他喜歡的樣子。
+                </p>
+                <p class="gs-reveal">
+                    但脆的演算法不是按照「這個人是誰」來推，是按照「這篇文讓誰有什麼反應」來推。你的產品原本定位給 A，但如果 B 寫了一篇留言很多的文，演算法就把它推給更多 B。不管你當初設定的是誰。
+                </p>
+                <p class="gs-reveal">
+                    這是脆行銷獨有的嗎？說實話，不完全是。Instagram Reels、TikTok 也有類似邏輯。但脆有一個其他平台比較少的條件：文字門檻極低，任何人都可以隨口一提。拍影片需要準備，IG 貼文需要圖，脆只要打幾個字。所以「意外被非 TA 的人提到」這件事，在脆上發生的頻率高很多。更接近現實生活裡那種朋友聚餐隨口說「欸那個東西不錯」的機緣巧合。
+                </p>
+                <p class="gs-reveal">
+                    當你發現脆上開始有人替你說話、但那個人不是你原本設定的客群，那個時間點，其實是一個選擇點。順著走，還是拉回來，都可以。但如果沒有意識到這件事正在發生，就會錯過利用這波自然流量的機會。
+                </p>
+
+                <h3 class="gs-reveal text-[28px] font-bold pt-8">被帶走之前，先知道發生了什麼</h3>
+                <p class="gs-reveal">
+                    爆紅、多賣東西有它的好處，但有一種情況也值得注意：當新來的那群人開始定義你的產品，你卻還在用原本的方式跟原本的人說話。兩邊都沒有得到他們要的東西。新來的人覺得這個品牌跟他們沒關係，原本的 TA 也感覺這個品牌變了。Tone 開始不對齊，通常不是一夕之間，是慢慢偏掉的。
+                </p>
+                <p class="gs-reveal">
+                    所以，當脆開始有人替你行銷，你知道要怎麼接嗎？這不是一個需要馬上回答的問題。但值得在某個時間點坐下來想清楚：你的產品現在在脆上是什麼形象、被什麼樣的人說、他們說的方式跟你想說的一不一樣。
+                </p>
+                <p class="gs-reveal">
+                    知道這些，不是為了去控制它。是為了在對的時間點，做一個有意識的決定。
+                </p>
+            </div>
+
+        </article>
+
+    </main>
+
+    <!-- PREV / NEXT -->
+    <nav class="px-[30px] md:px-[80px] py-16 border-t" style="border-color: var(--grid-line);">
+        <div class="max-w-[720px] mx-auto flex justify-between items-center">
+            <a href="#" class="prev-next-link flex items-center gap-12">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s ease; flex-shrink:0;"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                <div>
+                    <span style="font-family:'Noto Sans TC',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--editorial-gray);">上一篇</span>
+                    <p style="font-family:'Noto Sans TC',sans-serif;font-size:16px;font-weight:500;margin:4px 0 0;">文章標題</p>
+                </div>
+            </a>
+            <a href="#" class="prev-next-link flex items-center gap-12 text-right">
+                <div>
+                    <span style="font-family:'Noto Sans TC',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--editorial-gray);">下一篇</span>
+                    <p style="font-family:'Noto Sans TC',sans-serif;font-size:16px;font-weight:500;margin:4px 0 0;">文章標題</p>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s ease; flex-shrink:0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </nav>
+
+    <!-- FOOTER (white version) -->
+    <footer style="background:#ffffff;padding:80px 80px 40px;border-top:1px solid rgba(0,0,0,0.08);">
+        <div style="max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(0,0,0,0.08);margin-bottom:40px;">
+                <div>
+                    <div style="font-size:28px;font-weight:900;margin-bottom:16px;color:#0a0a0a;">達摩媒體</div>
+                    <p style="font-size:14px;color:#888;line-height:1.6;margin-bottom:24px;">口碑，是最有價值的廣告</p>
+                    <div>
+                        <span style="display:block;font-size:14px;color:rgba(0,0,0,0.45);margin-bottom:6px;">10595 台北巿松山區南京東路4段126號11F之1</span>
+                        <a href="tel:+886225708111" style="display:block;font-size:14px;color:rgba(0,0,0,0.45);margin-bottom:6px;text-decoration:none;transition:color 0.2s;">TEL. 02-2570-8111</a>
+                        <a href="mailto:service@dotmore.com.tw" style="display:block;font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">service@dotmore.com.tw</a>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">導覽</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="landing.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">首頁</a></li>
+                        <li style="margin-bottom:10px;"><a href="cases.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">精彩案例</a></li>
+                        <li style="margin-bottom:10px;"><a href="article.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">文章</a></li>
+                        <li style="margin-bottom:10px;"><a href="contact.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">服務</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="influencer.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">KOL 網紅口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="koc.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">KOC 群眾口碑</a></li>
+                        <li style="margin-bottom:10px;"><a href="forum.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">論壇操作</a></li>
+                        <li style="margin-bottom:10px;"><a href="social.html" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">社群動能</a></li>
+                        <li style="margin-bottom:10px;"><a href="https://inly.com.tw/" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;" target="_blank" rel="noopener">INLY 影領</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:20px;">社群</p>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">Instagram</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">Facebook</a></li>
+                        <li style="margin-bottom:10px;"><a href="#" style="font-size:14px;color:rgba(0,0,0,0.45);text-decoration:none;transition:color 0.2s;">Threads</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:rgba(0,0,0,0.2);">
+                <span>© 達摩媒體 2026 &nbsp;·&nbsp; 隱私權政策 &nbsp;·&nbsp; 服務條款</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Lenis smooth scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+
+        // GSAP reveal
+        document.querySelectorAll('.gs-reveal').forEach(el => {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'power4.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+    </script>
+    <script>
+    (function(){
+        var hBtn = document.getElementById("hamburgerBtn");
+        var mOverlay = document.getElementById("menu-overlay");
+        if (hBtn && mOverlay) {
+            hBtn.addEventListener("click", function() {
+                hBtn.classList.toggle("open");
+                if (mOverlay.style.opacity === "0" || mOverlay.style.opacity === "") {
+                    mOverlay.style.opacity = "1";
+                    mOverlay.style.pointerEvents = "auto";
+                } else {
+                    mOverlay.style.opacity = "0";
+                    mOverlay.style.pointerEvents = "none";
+                }
+            });
+        }
+    })();
+    </script>
+</body>
+</html>
